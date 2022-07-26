@@ -2,23 +2,30 @@ import { Offer } from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { getRatingStarsProcent } from '../../utils';
 
-type CardOfferProps = {
-  offer: Offer,
-  changeActiveOfferHandler: (offer: Offer) => void
+type FavoritesCardProps = {
+  favoritesCard: Offer;
 }
 
-export function CardOffer({offer, changeActiveOfferHandler}: CardOfferProps): JSX.Element {
-  const { price, previewImage, title, type, id, rating } = offer;
-  const procentStars = getRatingStarsProcent(rating);
+export function FavoritesCard({favoritesCard}: FavoritesCardProps): JSX.Element {
+  const {
+    isPremium,
+    previewImage,
+    price, rating,
+    title,
+    id,
+    type
+  } = favoritesCard;
 
   return (
-    <article className="cities__card place-card" onMouseEnter={() => changeActiveOfferHandler(offer)}>
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />
-        </Link>
+    <article className="favorites__card place-card">
+      {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
+
+      <div className="favorites__image-wrapper place-card__image-wrapper">
+        <a href="/">
+          <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place" />
+        </a>
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -33,7 +40,7 @@ export function CardOffer({offer, changeActiveOfferHandler}: CardOfferProps): JS
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${procentStars}px`}}></span>
+            <span style={{ width: getRatingStarsProcent(rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
