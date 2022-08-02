@@ -1,14 +1,16 @@
 import { LocationsItem } from '../../components/locations-item/locations-item';
 import { Logo } from '../../components/logo/logo';
+import { MapContainer } from '../../components/map-container/map-container';
 import { OfferList } from '../../components/offer-list/offer-list';
-import { Offer } from '../../types/offer';
+import { City, Offer } from '../../types/offer';
 
 type MainPageProps = {
   offersCount: number;
   offers: Offer[],
+  city: City
 };
 
-export function MainPage({offersCount, offers}:MainPageProps): JSX.Element {
+export function MainPage({offersCount, offers, city}:MainPageProps): JSX.Element {
   const locationItems = [
     {
       id:1,
@@ -97,7 +99,7 @@ export function MainPage({offersCount, offers}:MainPageProps): JSX.Element {
               <OfferList offers={offers}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <MapContainer city={city} offers={offers}/>
             </div>
           </div>
         </div>
