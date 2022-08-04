@@ -10,8 +10,6 @@ type CardOfferProps = {
 }
 
 export function CardOffer({offer, changeActiveOfferHandler, nearbyOffer}: CardOfferProps): JSX.Element {
-  // eslint-disable-next-line no-console
-  console.log(nearbyOffer);
   const { price, previewImage, title, type, id, rating } = offer;
   const procentStars = getRatingStarsProcent(rating);
 
