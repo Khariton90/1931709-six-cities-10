@@ -3,7 +3,7 @@ import { CardOffer } from '../../components/card-offer/card-offer';
 import { Offer } from '../../types/offer';
 
 type HOCProps = {
-  renderOffer: (offer:Offer, key: string, nearby?: boolean) => void;
+  renderOffer: (offer:Offer, key: string, nearbyOffer?: boolean) => void;
 }
 
 function withOfferList<T>(Component: ComponentType<T>) : ComponentType<Omit<T, keyof HOCProps>> {
