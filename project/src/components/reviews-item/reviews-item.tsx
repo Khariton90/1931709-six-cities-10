@@ -1,12 +1,20 @@
+import dayjs from 'dayjs';
 import { Reviews } from '../../mocks/reviews';
 import { getRatingStarsProcent } from '../../utils';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 type ReviewsItemProps = {
   review: Reviews
 }
 
+const DATE_REVIEW = 'MMMM YYYY';
+const DATE_TIME_REVIEW = 'YYYY-MM-DD';
+
 export function ReviewsItem({review}: ReviewsItemProps): JSX.Element {
   const {user} = review;
+  const getFormatDate = (format:string) => dayjs(review.date).format(format);
 
   return (
     <li className="reviews__item">
@@ -28,7 +36,11 @@ export function ReviewsItem({review}: ReviewsItemProps): JSX.Element {
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">{review.date.substring(0,10)}</time>
+        <time className="reviews__time"
+          dateTime={getFormatDate(DATE_TIME_REVIEW)}
+        >
+          {getFormatDate(DATE_REVIEW)}
+        </time>
       </div>
     </li>
   );

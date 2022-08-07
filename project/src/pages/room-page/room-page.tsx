@@ -3,7 +3,6 @@ import { Logo } from '../../components/logo/logo';
 import { MapContainer } from '../../components/map-container/map-container';
 import { OfferList } from '../../components/offer-list/offer-list';
 import { ReviewsList } from '../../components/reviews-list/reviews-list';
-import withOfferList from '../../hocs/with-offer-list/with-offer-list';
 import { Reviews } from '../../mocks/reviews';
 import { City, Offer } from '../../types/offer';
 import { getRatingStarsProcent } from '../../utils';
@@ -15,12 +14,12 @@ type RoomPageProps = {
   reviews: Reviews[]
 }
 
-const OfferListNearbyWrapped = withOfferList(OfferList);
+const THREE_NEARBY_OFFERS = 3;
 
 export function RoomPage({offers, city, reviews}: RoomPageProps): JSX.Element {
   const paramsId = useParams();
   const currentOffer = offers.find((offer) => offer.id === Number(paramsId.id));
-  const threeOffersNearby = offers.slice(0, 3);
+  const threeOffersNearby = offers.slice(0, THREE_NEARBY_OFFERS);
 
   if (currentOffer) {
     const {rating, price, images, goods, host, title, bedrooms, maxAdults, type, isPremium} = currentOffer;
@@ -146,7 +145,7 @@ export function RoomPage({offers, city, reviews}: RoomPageProps): JSX.Element {
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
-                <OfferListNearbyWrapped offers={threeOffersNearby} nearbyOffer/>
+                <OfferList offers={threeOffersNearby} nearbyOffer/>
               </div>
             </section>
           </div>

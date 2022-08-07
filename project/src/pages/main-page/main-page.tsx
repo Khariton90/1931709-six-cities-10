@@ -2,7 +2,6 @@ import { LocationsItem } from '../../components/locations-item/locations-item';
 import { Logo } from '../../components/logo/logo';
 import { MapContainer } from '../../components/map-container/map-container';
 import { OfferList } from '../../components/offer-list/offer-list';
-import withOfferList from '../../hocs/with-offer-list/with-offer-list';
 import { City, Offer } from '../../types/offer';
 
 type MainPageProps = {
@@ -10,8 +9,6 @@ type MainPageProps = {
   offers: Offer[],
   city: City
 };
-
-const OfferListWrapped = withOfferList(OfferList);
 
 export function MainPage({offersCount, offers, city}:MainPageProps): JSX.Element {
   const locationItems = [
@@ -100,7 +97,7 @@ export function MainPage({offersCount, offers, city}:MainPageProps): JSX.Element
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OfferListWrapped offers={offers}/>
+                <OfferList offers={offers}/>
               </div>
 
             </section>
