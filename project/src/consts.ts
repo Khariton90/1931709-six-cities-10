@@ -14,7 +14,7 @@ export enum AuthorizationStatus {
 
 export const MAX_STARS_RATING = 5;
 
-export const FIVE_STARS_WIDTH = 150;
+export const FIVE_STARS_WIDTH = 100;
 
 export const URL_MARKER_DEFAULT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';

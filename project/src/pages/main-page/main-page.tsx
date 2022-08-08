@@ -96,7 +96,10 @@ export function MainPage({offersCount, offers, city}:MainPageProps): JSX.Element
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OfferList offers={offers}/>
+              <div className="cities__places-list places__list tabs__content">
+                <OfferList offers={offers}/>
+              </div>
+
             </section>
             <div className="cities__right-section">
               <MapContainer city={city} offers={offers}/>

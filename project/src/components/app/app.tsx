@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../consts';
+import { reviews } from '../../mocks/reviews';
 import { FavoritesPage } from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { MainPage } from '../../pages/main-page/main-page';
@@ -30,7 +31,7 @@ function App({offersCount, offers, city}:MainPageProps): JSX.Element {
           }
         />
         <Route path={Login} element={<LoginPage />}/>
-        <Route path={Room} element={<RoomPage offers={offers}/>}/>
+        <Route path={Room} element={<RoomPage offers={offers} city={city} reviews={reviews}/>}/>
         <Route path={NotFound} element={<NotFoundPage />}/>
       </Routes>
     </BrowserRouter>
