@@ -10,18 +10,17 @@ import { City, Offer } from '../../types/offer';
 import { PrivateRoute } from '../private-route/private-route';
 
 type MainPageProps = {
-  offersCount: number;
   offers: Offer[]
   city: City
 };
 
-function App({offersCount, offers, city}:MainPageProps): JSX.Element {
+function App({ offers, city}:MainPageProps): JSX.Element {
   const { Main, Favorites, Login, Room, NotFound } = AppRoute;
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={Main} element={<MainPage offersCount={offersCount} offers={offers} city={city}/>}/>
+        <Route path={Main} element={<MainPage offers={offers}/>}/>
         <Route
           path={Favorites}
           element={

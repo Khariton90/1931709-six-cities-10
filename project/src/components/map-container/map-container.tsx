@@ -1,6 +1,6 @@
 import {useRef, useEffect } from 'react';
 import useMap from '../../hooks/useMap';
-import { Icon, Marker } from 'leaflet';
+import L, { Icon, Marker } from 'leaflet';
 import { City, Offer } from '../../types/offer';
 import { URL_MARKER_CURRENT } from '../../consts';
 import 'leaflet/dist/leaflet.css';
@@ -16,27 +16,39 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-export function MapContainer({city, offers}:MapContainerProps): JSX.Element {
+const markerGroup = L.layerGroup();
+
+const createMarker = (point:Offer) => {
+  const marker = new Marker({
+    lat: point.city.location.latitude,
+    lng: point.city.location.longitude
+  });
+
+  marker
+    .setIcon(
+      currentCustomIcon
+    )
+    .addTo(markerGroup);
+};
+
+
+export function MapContainer({city, offers}: MapContainerProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
+  const { location } = city;
+
   useEffect(() => {
+    markerGroup.clearLayers();
+
     if (map) {
-      offers.forEach((point) => {
-        const marker = new Marker({
-          lat: point.city.location.latitude,
-          lng: point.city.location.longitude
-        });
+      map.setView({lat: location.latitude, lng:location.longitude});
 
-        marker
-          .setIcon(
-            currentCustomIcon
-          )
-          .addTo(map);
-      });
+      offers.forEach((point) => createMarker(point));
+
+      markerGroup.addTo(map);
     }
-  }, [map, offers]);
-
+  }, [map, offers, city, location]);
 
   return (
     <section style={{height: '750px'}} className="cities__map map"
