@@ -1,4 +1,5 @@
-type Location = {
+
+export type Location = {
   latitude: number,
   longitude: number,
   zoom: number
@@ -33,4 +34,8 @@ export type Offer = {
   rating: number
   title: string
   type: string
+}
+
+export type CitiesListType = {
+  [key: string]: City
 }

@@ -2,41 +2,17 @@ import { LocationsItem } from '../../components/locations-item/locations-item';
 import { Logo } from '../../components/logo/logo';
 import { MapContainer } from '../../components/map-container/map-container';
 import { OfferList } from '../../components/offer-list/offer-list';
-import { City, Offer } from '../../types/offer';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeCity } from '../../store/action';
 
-type MainPageProps = {
-  offersCount: number;
-  offers: Offer[],
-  city: City
-};
 
-export function MainPage({offersCount, offers, city}:MainPageProps): JSX.Element {
-  const locationItems = [
-    {
-      id:1,
-      state: 'Paris'
-    },
-    {
-      id:2,
-      state: 'Cologne'
-    },
-    {
-      id:3,
-      state: 'Brussels'
-    },
-    {
-      id:4,
-      state: 'Amsterdam'
-    },
-    {
-      id:5,
-      state: 'Hamburg'
-    },
-    {
-      id:6,
-      state: 'Dusseldorf'
-    },
-  ];
+export function MainPage(): JSX.Element {
+  const store = useAppSelector((state) => state);
+  const {city, offers, citiesList} = store;
+
+  const dispatch = useAppDispatch();
+
+  const filteredOffers = offers.filter((offer) => offer.city.name === city.name);
 
   return (
     <div className="page page--gray page--main">
@@ -72,7 +48,13 @@ export function MainPage({offersCount, offers, city}:MainPageProps): JSX.Element
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {locationItems.map((item) => <LocationsItem key={item.id} state={item.state}/>)}
+              {Object.keys(citiesList).map((item) => (
+                <LocationsItem
+                  key={item}
+                  city={item}
+                  cityItem={city}
+                  onCityChange={() => dispatch(changeCity(item))}
+                />))}
             </ul>
           </section>
         </div>
@@ -80,7 +62,7 @@ export function MainPage({offersCount, offers, city}:MainPageProps): JSX.Element
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+              <b className="places__found">{filteredOffers.length} places to stay in {city.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -97,12 +79,12 @@ export function MainPage({offersCount, offers, city}:MainPageProps): JSX.Element
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OfferList offers={offers}/>
+                <OfferList offerList={filteredOffers}/>
               </div>
 
             </section>
             <div className="cities__right-section">
-              <MapContainer city={city} offers={offers}/>
+              <MapContainer city={city} offers={filteredOffers}/>
             </div>
           </div>
         </div>
@@ -110,3 +92,4 @@ export function MainPage({offersCount, offers, city}:MainPageProps): JSX.Element
     </div>
   );
 }
+

@@ -3,23 +3,27 @@ import { Logo } from '../../components/logo/logo';
 import { MapContainer } from '../../components/map-container/map-container';
 import { OfferList } from '../../components/offer-list/offer-list';
 import { ReviewsList } from '../../components/reviews-list/reviews-list';
+import { useAppSelector } from '../../hooks';
 import { Reviews } from '../../mocks/reviews';
-import { City, Offer } from '../../types/offer';
 import { getRatingStarsProcent } from '../../utils';
 import { NotFoundPage } from '../not-found-page/not-found-page';
 
 type RoomPageProps = {
-  offers: Offer[],
-  city: City,
   reviews: Reviews[]
 }
 
 const THREE_NEARBY_OFFERS = 3;
 
-export function RoomPage({offers, city, reviews}: RoomPageProps): JSX.Element {
+export function RoomPage({reviews}: RoomPageProps): JSX.Element {
   const paramsId = useParams();
-  const currentOffer = offers.find((offer) => offer.id === Number(paramsId.id));
-  const threeOffersNearby = offers.slice(0, THREE_NEARBY_OFFERS);
+  const offerList = useAppSelector((state) => state.offers);
+  const city = useAppSelector((state) => state.city);
+
+  const currentOffer = offerList.find((offer) => offer.id === Number(paramsId.id));
+
+  const threeOffersNearby = offerList
+    .slice(0, THREE_NEARBY_OFFERS)
+    .filter((offer) => offer.city.name === city.name);
 
   if (currentOffer) {
     const {rating, price, images, goods, host, title, bedrooms, maxAdults, type, isPremium} = currentOffer;
@@ -145,7 +149,7 @@ export function RoomPage({offers, city, reviews}: RoomPageProps): JSX.Element {
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
-                <OfferList offers={threeOffersNearby} nearbyOffer/>
+                <OfferList offerList={threeOffersNearby} nearbyOffer/>
               </div>
             </section>
           </div>

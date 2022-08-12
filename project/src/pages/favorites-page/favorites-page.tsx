@@ -1,12 +1,11 @@
 import { FavoritesCard } from '../../components/favorites-card/favorites-card';
 import { Logo } from '../../components/logo/logo';
-import { Offer } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
 
-type FavoritesPageProps = {
-  offers: Offer[]
-}
 
-export function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
+export function FavoritesPage(): JSX.Element {
+  const offerList = useAppSelector((state) => state.offers);
+
   return (
     <div className="page">
       <header className="header">
@@ -50,7 +49,7 @@ export function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {offers.map((offer) => (
+                  {offerList.map((offer) => (
                     <FavoritesCard favoritesCard={offer} key={offer.id}/>
                   ))}
                 </div>
