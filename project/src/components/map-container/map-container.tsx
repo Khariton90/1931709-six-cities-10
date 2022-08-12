@@ -18,16 +18,14 @@ const currentCustomIcon = new Icon({
 
 const markerGroup = L.layerGroup();
 
-const createMarker = (point:Offer) => {
+const createMarker = (point: Offer) => {
   const marker = new Marker({
     lat: point.city.location.latitude,
     lng: point.city.location.longitude
   });
 
   marker
-    .setIcon(
-      currentCustomIcon
-    )
+    .setIcon(currentCustomIcon)
     .addTo(markerGroup);
 };
 

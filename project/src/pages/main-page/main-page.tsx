@@ -5,18 +5,15 @@ import { OfferList } from '../../components/offer-list/offer-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Cities } from '../../mocks/city';
 import { changeCity } from '../../store/action';
-import { Offer } from '../../types/offer';
 
-type MainPageProps = {
-  offers: Offer[],
-};
 
-export function MainPage({offers}:MainPageProps): JSX.Element {
+export function MainPage(): JSX.Element {
   const cityItem = useAppSelector((state) => state.city);
+  const offerList = useAppSelector((state) => state.offers);
 
   const dispatch = useAppDispatch();
 
-  const filteredOffers = offers.filter((offer) => offer.city.name === cityItem.name);
+  const filteredOffers = offerList.filter((offer) => offer.city.name === cityItem.name);
 
   return (
     <div className="page page--gray page--main">
@@ -57,7 +54,7 @@ export function MainPage({offers}:MainPageProps): JSX.Element {
                   key={item.name}
                   city={item}
                   cityItem={cityItem}
-                  changeCityHandler={() => dispatch(changeCity(item))}
+                  onCityChange={() => dispatch(changeCity(item))}
                 />))}
             </ul>
           </section>
@@ -83,7 +80,7 @@ export function MainPage({offers}:MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OfferList offers={filteredOffers}/>
+                <OfferList offerList={filteredOffers}/>
               </div>
 
             </section>
