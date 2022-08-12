@@ -13,12 +13,12 @@ export function CardOffer({offer, changeActiveOfferHandler, nearbyOffer}: CardOf
   const { price, previewImage, title, type, id, rating } = offer;
   const procentStars = getRatingStarsProcent(rating);
 
-  const onChangeActiveOfferHandler = () => {
+  const onChangeActiveOffer = () => {
     changeActiveOfferHandler(offer);
   };
 
   return (
-    <article className={cn('place-card', {'cities__card': !nearbyOffer, 'near-places__card': nearbyOffer})} onMouseEnter={onChangeActiveOfferHandler}>
+    <article className={cn('place-card', {'cities__card': !nearbyOffer, 'near-places__card': nearbyOffer})} onMouseEnter={onChangeActiveOffer}>
       <div className={cn('place-card__image-wrapper', {'cities__card': !nearbyOffer, 'near-places__image-wrapper': nearbyOffer})} >
         <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />
