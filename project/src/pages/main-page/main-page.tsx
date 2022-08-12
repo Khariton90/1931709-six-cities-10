@@ -92,3 +92,4 @@ export function MainPage(): JSX.Element {
     </div>
   );
 }
+

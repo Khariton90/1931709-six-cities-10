@@ -28,3 +28,4 @@ export function OfferList({offerList, nearbyOffer}: OfferListProps): JSX.Element
   );
 }
 
+
