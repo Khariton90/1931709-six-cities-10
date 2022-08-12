@@ -14,13 +14,16 @@ type RoomPageProps = {
 
 const THREE_NEARBY_OFFERS = 3;
 
-export function RoomPage({ reviews}: RoomPageProps): JSX.Element {
+export function RoomPage({reviews}: RoomPageProps): JSX.Element {
   const paramsId = useParams();
   const offerList = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
 
   const currentOffer = offerList.find((offer) => offer.id === Number(paramsId.id));
-  const threeOffersNearby = offerList.slice(0, THREE_NEARBY_OFFERS);
+
+  const threeOffersNearby = offerList
+    .slice(0, THREE_NEARBY_OFFERS)
+    .filter((offer) => offer.city.name === city.name);
 
   if (currentOffer) {
     const {rating, price, images, goods, host, title, bedrooms, maxAdults, type, isPremium} = currentOffer;

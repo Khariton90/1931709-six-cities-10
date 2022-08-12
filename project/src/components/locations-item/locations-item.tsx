@@ -3,7 +3,7 @@ import React from 'react';
 import { City } from '../../types/offer';
 
 type LocationsItemProps = {
-  city: City,
+  city: string,
   cityItem: City,
   onCityChange: (city: City) => void;
 }
@@ -18,12 +18,12 @@ export function LocationsItem({ city, cityItem, onCityChange }:LocationsItemProp
     <li className="locations__item">
       <a
         className={
-          cn('locations__item-link tabs__item', {'tabs__item--active': city.name === cityItem?.name})
+          cn('locations__item-link tabs__item', {'tabs__item--active': city === cityItem.name})
         }
         href="/"
         onClick={changeCityHandler}
       >
-        <span>{city.name}</span>
+        <span>{city}</span>
       </a>
     </li>
   );

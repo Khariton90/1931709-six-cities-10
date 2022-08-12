@@ -1,25 +1,25 @@
 import { offers } from './../mocks/offers';
-import { CITY } from './../mocks/city';
+import { CITY, CitiesList } from './../mocks/city';
 import { createReducer } from '@reduxjs/toolkit';
 import { changeCity } from './action';
-import { City, Offer } from '../types/offer';
+import { CitiesListType, City, Offer } from '../types/offer';
 
 type initialStateType = {
   city: City,
+  citiesList: CitiesListType,
   offers: Offer[],
-  count:number
 }
 
 const initialState:initialStateType = {
   city: CITY,
+  citiesList: CitiesList,
   offers: offers,
-  count: 1
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeCity, (state, action) => {
-      state.city = action.payload;
+      state.city = state.citiesList[action.payload];
     });
 });
 

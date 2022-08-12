@@ -1,4 +1,4 @@
-import { City } from './../types/offer';
+import { CitiesListType, City } from './../types/offer';
 
 export const CITY: City = {
   name: 'Paris',
@@ -9,8 +9,8 @@ export const CITY: City = {
   }
 };
 
-export const Cities:City[] = [
-  {
+export const CitiesList: CitiesListType = {
+  'Paris': {
     name: 'Paris',
     location: {
       latitude: 48.856663,
@@ -18,7 +18,7 @@ export const Cities:City[] = [
       zoom: 12
     }
   },
-  {
+  'Cologne': {
     name: 'Cologne',
     location: {
       latitude: 50.930779,
@@ -26,7 +26,7 @@ export const Cities:City[] = [
       zoom: 12
     }
   },
-  {
+  'Brussels': {
     name: 'Brussels',
     location: {
       latitude: 50.846697,
@@ -34,7 +34,7 @@ export const Cities:City[] = [
       zoom: 12
     }
   },
-  {
+  'Amsterdam': {
     name: 'Amsterdam',
     location: {
       latitude: 52.373057,
@@ -42,7 +42,7 @@ export const Cities:City[] = [
       zoom: 12
     }
   },
-  {
+  'Hamburg': {
     name: 'Hamburg',
     location: {
       latitude: 53.550688,
@@ -50,13 +50,12 @@ export const Cities:City[] = [
       zoom: 12
     }
   },
-  {
+  'Dusseldorf': {
     name: 'Dusseldorf',
     location: {
       latitude: 51.230569,
       longitude: 6.787428,
       zoom: 12
     }
-  }
-];
-
+  },
+};
