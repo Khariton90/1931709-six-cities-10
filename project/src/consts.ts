@@ -26,3 +26,17 @@ export const URL_MARKER_CURRENT =
 export const MAP_URL_TEMPLATE = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
 export const MAP_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
+export const SelectOptions = {
+  DEFAULT: 'DEFAULT',
+  LOW_TO_HIGT: 'LOW_TO_HIGT',
+  HIGH_TO_LOW: 'HIGH_TO_LOW',
+  TOP_RATED: 'TOP_RATED'
+};
+
+export const sortOptions: {[key:string]: string} = {
+  [SelectOptions.DEFAULT]: 'Popular',
+  [SelectOptions.LOW_TO_HIGT]: 'Price: low to high',
+  [SelectOptions.HIGH_TO_LOW]: 'Price: high to low',
+  [SelectOptions.TOP_RATED]: 'Top rated first'
+};
