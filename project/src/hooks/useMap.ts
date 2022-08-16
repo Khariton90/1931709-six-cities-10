@@ -1,6 +1,6 @@
 import { City } from './../types/offer';
 import {useEffect, useState, MutableRefObject, useRef} from 'react';
-import {Map, TileLayer} from 'leaflet';
+import { Map, TileLayer} from 'leaflet';
 import { MAP_ATTRIBUTION, MAP_URL_TEMPLATE } from '../consts';
 
 function useMap(

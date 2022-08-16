@@ -22,8 +22,9 @@ export function RoomPage({reviews}: RoomPageProps): JSX.Element {
   const currentOffer = offerList.find((offer) => offer.id === Number(paramsId.id));
 
   const threeOffersNearby = offerList
-    .slice(0, THREE_NEARBY_OFFERS)
-    .filter((offer) => offer.city.name === city.name);
+    .slice()
+    .filter((offer) => offer.city.name === city.name)
+    .slice(0, THREE_NEARBY_OFFERS);
 
   if (currentOffer) {
     const {rating, price, images, goods, host, title, bedrooms, maxAdults, type, isPremium} = currentOffer;

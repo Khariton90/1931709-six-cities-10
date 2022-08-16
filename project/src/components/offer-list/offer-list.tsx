@@ -1,18 +1,13 @@
-import { useState } from 'react';
 import { Offer } from '../../types/offer';
 import { CardOffer } from '../card-offer/card-offer';
 
 type OfferListProps = {
   offerList: Offer[]
   nearbyOffer?: boolean,
+  onSetShowPinOffer?: (offer: Offer) => void;
 }
 
-export function OfferList({offerList, nearbyOffer}: OfferListProps): JSX.Element {
-  const [activeOffer, setActiveOffer] = useState({});
-
-  const changeActiveOfferHandler = (offer: Offer) => {
-    setActiveOffer({...activeOffer, ...offer});
-  };
+export function OfferList({offerList, nearbyOffer, onSetShowPinOffer}: OfferListProps): JSX.Element {
 
   return (
     <>
@@ -20,7 +15,6 @@ export function OfferList({offerList, nearbyOffer}: OfferListProps): JSX.Element
         <CardOffer
           key={offer.id}
           offer={offer}
-          changeActiveOfferHandler={changeActiveOfferHandler}
           nearbyOffer={nearbyOffer}
         />
       ))}

@@ -2,23 +2,25 @@ import { Offer } from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { getRatingStarsProcent } from '../../utils';
 import cn from 'classnames';
+import { useAppDispatch } from '../../hooks';
+import { showCurrentIcon } from '../../store/action';
 
 type CardOfferProps = {
   offer: Offer,
-  changeActiveOfferHandler: (offer: Offer) => void,
   nearbyOffer?: boolean
 }
 
-export function CardOffer({offer, changeActiveOfferHandler, nearbyOffer}: CardOfferProps): JSX.Element {
+export function CardOffer({offer, nearbyOffer}: CardOfferProps): JSX.Element {
   const { price, previewImage, title, type, id, rating } = offer;
   const procentStars = getRatingStarsProcent(rating);
-
-  const onChangeActiveOffer = () => {
-    changeActiveOfferHandler(offer);
-  };
+  const dispatch = useAppDispatch();
 
   return (
-    <article className={cn('place-card', {'cities__card': !nearbyOffer, 'near-places__card': nearbyOffer})} onMouseEnter={onChangeActiveOffer}>
+    <article
+      className={cn('place-card', {'cities__card': !nearbyOffer, 'near-places__card': nearbyOffer})}
+      onMouseEnter={() => dispatch(showCurrentIcon(offer.id))}
+      onMouseLeave={() => dispatch(showCurrentIcon(null))}
+    >
       <div className={cn('place-card__image-wrapper', {'cities__card': !nearbyOffer, 'near-places__image-wrapper': nearbyOffer})} >
         <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />
