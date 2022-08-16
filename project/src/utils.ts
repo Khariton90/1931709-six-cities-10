@@ -6,21 +6,12 @@ export const getRatingStarsProcent = (rating: number) => (FIVE_STARS_WIDTH / MAX
 export const compareOffer = (high:number, low:number) => high - low;
 
 export const sortList = (sortType: string, list: Offer[]) => {
-  const { DEFAULT, HIGH_TO_LOW, LOW_TO_HIGT, TOP_RATED } = SelectOptions;
+  const sortObj = {
+    [SelectOptions.DEFAULT]: () => list,
+    [SelectOptions.HIGH_TO_LOW]: () => list.sort((offerA, offerB) => compareOffer(offerB.price, offerA.price)),
+    [SelectOptions.LOW_TO_HIGT]: () => list.sort((offerA, offerB) => compareOffer(offerA.price, offerB.price)),
+    [SelectOptions.TOP_RATED]: () => list.sort((offerA, offerB) => compareOffer(offerB.rating, offerA.rating)),
+  };
 
-  if (sortType !== DEFAULT) {
-    if (sortType === HIGH_TO_LOW) {
-      return list.sort((offerA, offerB) => compareOffer(offerB.price, offerA.price));
-    }
-
-    if (sortType === LOW_TO_HIGT) {
-      return list.sort((offerA, offerB) => compareOffer(offerA.price, offerB.price));
-    }
-
-    if (sortType === TOP_RATED) {
-      return list.sort((offerA, offerB) => compareOffer(offerB.rating, offerA.rating));
-    }
-  }
-
-  return list;
+  return sortObj[sortType]();
 };

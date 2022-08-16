@@ -11,3 +11,11 @@ export const showCurrentIcon = createAction('map/showCurrentIcon', (icon) => ({
 export const sortOffers = createAction('offer/sortOffers', (option) => ({
   payload: option
 }));
+
+export const loadOffers = createAction('data/loadOffers', (offers) => ({
+  payload: offers
+}));
+
+export const setDataLoadedStatus = createAction('offer/setDataLoadedStatus', (status) => ({
+  payload: status
+}));

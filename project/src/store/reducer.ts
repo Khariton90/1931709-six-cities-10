@@ -1,8 +1,7 @@
 import { SelectOptions } from './../consts';
-import { offers } from './../mocks/offers';
 import { CITY, CitiesList } from './../mocks/city';
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, showCurrentIcon, sortOffers } from './action';
+import { changeCity, showCurrentIcon, sortOffers, loadOffers, setDataLoadedStatus } from './action';
 import { CitiesListType, City, Offer } from '../types/offer';
 
 type initialStateType = {
@@ -10,15 +9,17 @@ type initialStateType = {
   citiesList: CitiesListType,
   offers: Offer[],
   icon: number | null,
-  sortType: string
+  sortType: string,
+  isDataLoaded: boolean
 }
 
 const initialState:initialStateType = {
   city: CITY,
   citiesList: CitiesList,
-  offers: offers,
+  offers: [],
   icon: null,
-  sortType: SelectOptions.DEFAULT
+  sortType: SelectOptions.DEFAULT,
+  isDataLoaded: false
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -31,6 +32,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(sortOffers, (state, action) => {
       state.sortType = action.payload;
+    })
+    .addCase(setDataLoadedStatus, (state, action) => {
+      state.isDataLoaded = action.payload;
+    })
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
     });
 });
 
