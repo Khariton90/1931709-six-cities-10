@@ -2,15 +2,13 @@ import dayjs from 'dayjs';
 import { Reviews } from '../../mocks/reviews';
 import { getRatingStarsProcent } from '../../utils';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { DATE_REVIEW, DATE_TIME_REVIEW } from '../../consts';
 
 dayjs.extend(customParseFormat);
 
 type ReviewsItemProps = {
   review: Reviews
 }
-
-const DATE_REVIEW = 'MMMM YYYY';
-const DATE_TIME_REVIEW = 'YYYY-MM-DD';
 
 export function ReviewsItem({review}: ReviewsItemProps): JSX.Element {
   const {user} = review;

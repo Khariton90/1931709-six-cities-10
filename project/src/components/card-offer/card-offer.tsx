@@ -12,8 +12,10 @@ type CardOfferProps = {
 
 export function CardOffer({offer, nearbyOffer}: CardOfferProps): JSX.Element {
   const { price, previewImage, title, type, id, rating } = offer;
-  const procentStars = getRatingStarsProcent(rating);
+
   const dispatch = useAppDispatch();
+
+  const procentStars = getRatingStarsProcent(rating);
 
   return (
     <article

@@ -6,9 +6,9 @@ import { sortOffers } from '../../store/action';
 
 export function SortingOptions(): JSX.Element {
   const [openSort, setOpenSort] = useState(false);
-  const dispatch = useAppDispatch();
 
   const sortType = useAppSelector((state) => state.sortType);
+  const dispatch = useAppDispatch();
 
   const setActiveClassHandler = (option: string) => {
     dispatch(sortOffers(option));

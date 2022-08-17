@@ -1,7 +1,7 @@
-import { SelectOptions } from './../consts';
+import { SelectOptions, AuthorizationStatus } from './../consts';
 import { CITY, CitiesList } from './../mocks/city';
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, showCurrentIcon, sortOffers, loadOffers, setDataLoadedStatus } from './action';
+import { changeCity, showCurrentIcon, sortOffers, loadOffers, setDataLoadedStatus, requireAutorization } from './action';
 import { CitiesListType, City, Offer } from '../types/offer';
 
 type initialStateType = {
@@ -10,7 +10,8 @@ type initialStateType = {
   offers: Offer[],
   icon: number | null,
   sortType: string,
-  isDataLoaded: boolean
+  isDataLoaded: boolean,
+  autorizationStatus: AuthorizationStatus,
 }
 
 const initialState:initialStateType = {
@@ -19,7 +20,8 @@ const initialState:initialStateType = {
   offers: [],
   icon: null,
   sortType: SelectOptions.DEFAULT,
-  isDataLoaded: false
+  isDataLoaded: false,
+  autorizationStatus: AuthorizationStatus.Unknown,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -38,6 +40,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
+    })
+    .addCase(requireAutorization, (state, action) => {
+      state.autorizationStatus = action.payload;
     });
 });
 

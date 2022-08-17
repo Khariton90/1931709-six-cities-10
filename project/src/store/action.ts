@@ -1,3 +1,4 @@
+import { AppRoute } from './../consts';
 import { createAction } from '@reduxjs/toolkit';
 
 export const changeCity = createAction('offer/changeCity', (value) => ({
@@ -19,3 +20,9 @@ export const loadOffers = createAction('data/loadOffers', (offers) => ({
 export const setDataLoadedStatus = createAction('offer/setDataLoadedStatus', (status) => ({
   payload: status
 }));
+
+export const requireAutorization = createAction('user/requireAutorization', (status) => ({
+  payload: status
+}));
+
+export const redirectToRoute = createAction<AppRoute>('data/redirectToRoute');
