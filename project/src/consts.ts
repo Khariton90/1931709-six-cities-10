@@ -6,6 +6,7 @@ export const FIVE_STARS_WIDTH = 100;
 export const INVALID_MESSAGE = 'В пароле должна быть хотя бы одна цифра и буква';
 export const DATE_REVIEW = 'MMMM YYYY';
 export const DATE_TIME_REVIEW = 'YYYY-MM-DD';
+export const AUTO_CLOSE_TIME_OUT = 1000;
 
 export enum AppRoute {
   Main = '/',
