@@ -1,23 +1,27 @@
 import { ChangeEvent } from 'react';
+import { MAX_STARS_RATING } from '../../consts';
 
 type RatingInputFieldProps = {
-  fieldChangeHandle: (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
-  value: number
+  fieldChangeHandle: (evt: ChangeEvent<HTMLInputElement>) => void;
+  value: number,
+  disabled: boolean
 }
 
+export function RatingInputField({fieldChangeHandle, value, disabled}:RatingInputFieldProps): JSX.Element {
+  const starValue = MAX_STARS_RATING - value;
 
-export function RatingInputField({fieldChangeHandle, value}:RatingInputFieldProps): JSX.Element {
   return (
     <>
       <input className="form__rating-input visually-hidden"
         name="rating"
-        value={value}
-        id={`${value}-stars`}
+        value={starValue}
+        id={`${starValue}-stars`}
         type="radio"
+        disabled={disabled}
         onChange={(evt) => fieldChangeHandle(evt)}
       />
       <label
-        htmlFor={`${value}-stars`}
+        htmlFor={`${starValue}-stars`}
         className="reviews__rating-label form__rating-label"
         title="perfect"
       >

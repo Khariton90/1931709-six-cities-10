@@ -2,7 +2,9 @@ import { toast } from 'react-toastify';
 import { MAX_STARS_RATING, FIVE_STARS_WIDTH, SelectOptions, INVALID_MESSAGE, AUTO_CLOSE_TIME_OUT } from './consts';
 import { Offer } from './types/offer';
 
-export const getRatingStarsProcent = (rating: number) => (FIVE_STARS_WIDTH / MAX_STARS_RATING) * rating;
+const DEFAULT_RATING = 0;
+
+export const getRatingStarsProcent = (rating = DEFAULT_RATING) => (FIVE_STARS_WIDTH / MAX_STARS_RATING) * rating;
 
 export const compareOffer = (high:number, low:number) => high - low;
 

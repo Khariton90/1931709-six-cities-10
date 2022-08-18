@@ -10,11 +10,10 @@ import { sortList } from '../../utils';
 export function MainPage(): JSX.Element {
   const store = useAppSelector((state) => state);
   const {city, offers, citiesList, sortType} = store;
-
   const dispatch = useAppDispatch();
 
   const filteredOffers = () => {
-    const filteredOfferList = offers.filter((offer) => offer.city.name === city.name);
+    const filteredOfferList = offers.slice().filter((offer) => offer.city.name === city.name);
     const sortOfferList = sortList(sortType, filteredOfferList);
 
     return sortOfferList;
@@ -48,7 +47,7 @@ export function MainPage(): JSX.Element {
               <b className="places__found" >{offerList.length} places to stay in {city.name}</b>
               <SortingOptions />
               <div className="cities__places-list places__list tabs__content">
-                <OfferList offerList={offerList} />
+                <OfferList offers={offerList}/>
               </div>
 
             </section>

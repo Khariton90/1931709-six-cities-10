@@ -1,8 +1,10 @@
+import { UserData } from './../types/user-data';
 import { SelectOptions, AuthorizationStatus } from './../consts';
 import { CITY, CitiesList } from './../mocks/city';
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, showCurrentIcon, sortOffers, loadOffers, setDataLoadedStatus, requireAutorization } from './action';
+import { changeCity, showCurrentIcon, sortOffers, loadOffers, setDataLoadedStatus, requireAutorization, loadOneOffer, loadNearby, loadReviews, setError, setUserData } from './action';
 import { CitiesListType, City, Offer } from '../types/offer';
+import { Reviews } from '../types/reviews';
 
 type initialStateType = {
   city: City,
@@ -12,6 +14,11 @@ type initialStateType = {
   sortType: string,
   isDataLoaded: boolean,
   autorizationStatus: AuthorizationStatus,
+  selectedOffer: Offer | null,
+  nearby: Offer[]
+  reviews: Reviews[],
+  error: boolean,
+  userData: UserData | null
 }
 
 const initialState:initialStateType = {
@@ -22,6 +29,11 @@ const initialState:initialStateType = {
   sortType: SelectOptions.DEFAULT,
   isDataLoaded: false,
   autorizationStatus: AuthorizationStatus.Unknown,
+  selectedOffer: null,
+  nearby: [],
+  reviews: [],
+  error: false,
+  userData: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -43,6 +55,21 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAutorization, (state, action) => {
       state.autorizationStatus = action.payload;
+    })
+    .addCase(loadOneOffer, (state, action) => {
+      state.selectedOffer = action.payload;
+    })
+    .addCase(loadNearby, (state, action) => {
+      state.nearby = action.payload;
+    })
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(setUserData, (state, action) => {
+      state.userData = action.payload;
     });
 });
 

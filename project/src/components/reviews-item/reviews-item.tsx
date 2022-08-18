@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Reviews } from '../../mocks/reviews';
+import { Reviews } from '../../types/reviews';
 import { getRatingStarsProcent } from '../../utils';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { DATE_REVIEW, DATE_TIME_REVIEW } from '../../consts';

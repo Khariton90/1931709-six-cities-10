@@ -26,3 +26,23 @@ export const requireAutorization = createAction('user/requireAutorization', (sta
 }));
 
 export const redirectToRoute = createAction<AppRoute>('data/redirectToRoute');
+
+export const loadOneOffer = createAction('data/loadOneOffer', (offer) => ({
+  payload: offer
+}));
+
+export const loadNearby = createAction('data/loadNearby', (nearby) => ({
+  payload: nearby
+}));
+
+export const loadReviews = createAction('data/loadReviews', (reviews) => ({
+  payload: reviews
+}));
+
+export const setError = createAction('data/setError', (error) => ({
+  payload: error
+}));
+
+export const setUserData = createAction('data/setUserData', (data) => ({
+  payload: data
+}));

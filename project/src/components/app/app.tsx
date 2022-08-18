@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 import browserHistory from '../../browser-history';
 import { AppRoute, AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { reviews } from '../../mocks/reviews';
 import { FavoritesPage } from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { MainPage } from '../../pages/main-page/main-page';
@@ -16,16 +15,17 @@ import { PrivateRoute } from '../private-route/private-route';
 import { Spinner } from '../spinner/spinner';
 
 function App(): JSX.Element {
-  useEffect(() => {
-    token && dispatch(requireAutorization(AuthorizationStatus.Auth));
-  });
-
-  const { Main, Favorites, Login, Room, NotFound } = AppRoute;
-
   const isLoaded = useAppSelector((state) => state.isDataLoaded);
   const dispatch = useAppDispatch();
 
+  const { Main, Favorites, Login, Room, NotFound } = AppRoute;
+
   const token = getToken();
+  useEffect(() => {
+    if (token) {
+      dispatch(requireAutorization(AuthorizationStatus.Auth));
+    }
+  }, [dispatch, token]);
 
   if(isLoaded) {
     return <Spinner />;
@@ -44,7 +44,7 @@ function App(): JSX.Element {
           }
         />
         <Route path={Login} element={<LoginPage />}/>
-        <Route path={Room} element={<RoomPage reviews={reviews}/>}/>
+        <Route path={Room} element={<RoomPage />}/>
         <Route path={NotFound} element={<NotFoundPage />}/>
       </Routes>
     </HistoryRouter>
