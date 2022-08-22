@@ -17,27 +17,23 @@ export function CardOffer({offer, nearbyOffer}: CardOfferProps): JSX.Element {
 
   const procentStars = getRatingStarsProcent(rating);
 
-  const onMouseEnterHandler = () => {
+  const handleMouseEnterToCard = () => {
     if (nearbyOffer) {
-      return false;
+      dispatch(showCurrentIcon(offer.id));
     }
-
-    dispatch(showCurrentIcon(offer.id));
   };
 
-  const onMouseLeaveHandler = () => {
+  const handleMouseLeaveToCard = () => {
     if (nearbyOffer) {
-      return false;
+      dispatch(showCurrentIcon(null));
     }
-
-    dispatch(showCurrentIcon(null));
   };
 
   return (
     <article
       className={cn('place-card', {'cities__card': !nearbyOffer, 'near-places__card': nearbyOffer})}
-      onMouseEnter={onMouseEnterHandler}
-      onMouseLeave={onMouseLeaveHandler}
+      onMouseEnter={handleMouseEnterToCard}
+      onMouseLeave={handleMouseLeaveToCard}
     >
       <div className={cn('place-card__image-wrapper', {'cities__card': !nearbyOffer, 'near-places__image-wrapper': nearbyOffer})} >
         <Link to={`/offer/${id}`}>

@@ -1,3 +1,6 @@
+import { CommentForm } from './../types/comment-form';
+import { handleErrorProcess } from './../services/handle-error';
+import { store } from './index';
 import { saveToken, dropToken } from './../services/token';
 import { ApiRoute, AppRoute, AuthorizationStatus, AUTO_CLOSE_TIME_OUT } from './../consts';
 import { loadOffers, setDataLoadedStatus, requireAutorization, redirectToRoute, loadOneOffer, loadNearby, loadReviews, setError, setUserData } from './action';
@@ -6,8 +9,15 @@ import { AppDispatch, State } from './../types/state';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Offer } from '../types/offer';
 import { AuthData } from '../types/auth-data';
-import { UserData } from '../types/user-data';
+import { UserDTO } from '../types/user-dto';
 import { Reviews } from '../types/reviews';
+
+export const clearErrorAction = createAsyncThunk(
+  'data/clearError',
+  () => {
+    setTimeout(() => store.dispatch(setError(null)), AUTO_CLOSE_TIME_OUT);
+  }
+);
 
 export const fetchOfferAction = createAsyncThunk<void, undefined,{ dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
   'data/fetchOffers',
@@ -34,7 +44,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {dispatch: AppD
 export const loginAction = createAsyncThunk<void, AuthData, {dispatch: AppDispatch,state: State,extra: AxiosInstance}>(
   'user/login',
   async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data} = await api.post<UserData>(ApiRoute.Login, {email, password});
+    const {data} = await api.post<UserDTO>(ApiRoute.Login, {email, password});
     saveToken(data.token);
     dispatch(requireAutorization(AuthorizationStatus.Auth));
     dispatch(setUserData(data));
@@ -83,22 +93,15 @@ export const fetchReviews = createAsyncThunk<void, string | undefined, {dispatch
   }
 );
 
-type CommentType = {
-  id: number,
-  comment: string,
-  rating: number
-}
 
-export const addNewCommentAction = createAsyncThunk<void, CommentType, {dispatch: AppDispatch, state: State, extra: AxiosInstance }> (
+export const addNewCommentAction = createAsyncThunk<void, CommentForm, {dispatch: AppDispatch, state: State, extra: AxiosInstance }> (
   'data/addNewCommentAction',
   async ({id, comment, rating}, {dispatch, extra: api}) => {
     try {
-      const {data} = await api.post<CommentType>(`/comments/${id}`, {comment, rating});
+      const {data} = await api.post<CommentForm>(`/comments/${id}`, {comment, rating});
       dispatch(loadReviews(data));
     } catch {
-      dispatch(setError(true));
-      setTimeout(() => dispatch(setError(false)), AUTO_CLOSE_TIME_OUT);
+      handleErrorProcess('Ошибка сервера');
     }
-
   }
 );

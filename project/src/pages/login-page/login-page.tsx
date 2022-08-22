@@ -1,29 +1,26 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { Logo } from '../../components/logo/logo';
-import { AppRoute, AuthorizationStatus } from '../../consts';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
 import { validatePassword } from '../../utils';
 
 export function LoginPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+
   const [submitForm, setSubmitForm] = useState<AuthData>({
     login: '',
     password: ''
   });
 
-  const autorizationStatus = useAppSelector((state) => state.autorizationStatus);
-  const dispatch = useAppDispatch();
-
   const handleChangeInputValue = (evt: ChangeEvent<HTMLInputElement>) => {
-    setSubmitForm((prev) => ({
-      ...prev,
+    setSubmitForm((prevForm) => ({
+      ...prevForm,
       [evt.target.name]: evt.target.value
     }));
   };
 
-  const onSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     const password = validatePassword(submitForm.password);
@@ -32,10 +29,6 @@ export function LoginPage(): JSX.Element {
       dispatch(loginAction(submitForm));
     }
   };
-
-  if (autorizationStatus === AuthorizationStatus.Auth) {
-    return <Navigate to={AppRoute.Main} />;
-  }
 
   return (
     <div className="page page--gray page--login">
@@ -53,7 +46,7 @@ export function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post" onSubmit={onSubmit}>
+            <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input className="login__input form__input" type="email" name="login" placeholder="Email"

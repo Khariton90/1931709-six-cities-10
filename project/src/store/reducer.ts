@@ -1,4 +1,4 @@
-import { UserData } from './../types/user-data';
+import { UserDTO } from '../types/user-dto';
 import { SelectOptions, AuthorizationStatus } from './../consts';
 import { CITY, CitiesList } from './../mocks/city';
 import { createReducer } from '@reduxjs/toolkit';
@@ -17,8 +17,8 @@ type initialStateType = {
   selectedOffer: Offer | null,
   nearby: Offer[]
   reviews: Reviews[],
-  error: boolean,
-  userData: UserData | null
+  error: string | null,
+  userData: UserDTO | null,
 }
 
 const initialState:initialStateType = {
@@ -32,8 +32,8 @@ const initialState:initialStateType = {
   selectedOffer: null,
   nearby: [],
   reviews: [],
-  error: false,
-  userData: null
+  error: null,
+  userData: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {

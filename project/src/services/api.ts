@@ -1,3 +1,4 @@
+import { AUTO_CLOSE_TIME_OUT } from './../consts';
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse} from 'axios';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
@@ -36,7 +37,7 @@ export const createApi = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError) => {
       if (error.response && shouldDisplayError(error.response)) {
-        toast.info(error.response.data.error);
+        toast.info(error.response.data.error, {autoClose: AUTO_CLOSE_TIME_OUT});
       }
 
       throw error;

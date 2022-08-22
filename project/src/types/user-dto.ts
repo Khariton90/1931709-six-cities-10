@@ -1,4 +1,4 @@
-export type UserData = {
+export type UserDTO = {
   avatarUrl: string
   email: string
   id: number

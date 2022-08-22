@@ -5,7 +5,7 @@ import { CommentSubmitForm } from '../comment-submit-form/comment-submit-form';
 import { ReviewsItem } from '../reviews-item/reviews-item';
 
 type ReviewsListProps = {
-  id: string | undefined
+  id: string,
 }
 
 export function ReviewsList({id}: ReviewsListProps): JSX.Element {
@@ -27,7 +27,7 @@ export function ReviewsList({id}: ReviewsListProps): JSX.Element {
           ))
         }
       </ul>
-      <CommentSubmitForm />
+      <CommentSubmitForm id={id}/>
     </section>
   );
 }

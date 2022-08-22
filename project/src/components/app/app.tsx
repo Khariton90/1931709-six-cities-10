@@ -27,7 +27,7 @@ function App(): JSX.Element {
     }
   }, [dispatch, token]);
 
-  if(isLoaded) {
+  if (isLoaded) {
     return <Spinner />;
   }
 
