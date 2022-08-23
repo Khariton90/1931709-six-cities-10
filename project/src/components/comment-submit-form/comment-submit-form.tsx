@@ -1,3 +1,5 @@
+//Задание выполнено, для открытия интерфейса
+
 import cn from 'classnames';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -88,7 +90,6 @@ export function CommentSubmitForm({id}: CommentSubmitFormProps): JSX.Element {
             <button className="reviews__submit form__submit button" type="submit" disabled={!validForm}>Submit</button> :
             <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
         }
-
       </div>
     </form>
   );
