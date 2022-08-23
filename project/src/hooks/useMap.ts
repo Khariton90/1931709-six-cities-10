@@ -1,7 +1,7 @@
 import { City } from './../types/offer';
 import {useEffect, useState, MutableRefObject, useRef} from 'react';
 import { Map, TileLayer} from 'leaflet';
-import { MAP_ATTRIBUTION, MAP_URL_TEMPLATE } from '../consts';
+import { MapOptions } from '../consts';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
@@ -22,9 +22,9 @@ function useMap(
       });
 
       const layer = new TileLayer(
-        MAP_URL_TEMPLATE,
+        MapOptions.MAP_URL_TEMPLATE,
         {
-          attribution: MAP_ATTRIBUTION
+          attribution: MapOptions.MAP_ATTRIBUTION
         }
       );
 

@@ -12,14 +12,28 @@ type CardOfferProps = {
 
 export function CardOffer({offer, nearbyOffer}: CardOfferProps): JSX.Element {
   const { price, previewImage, title, type, id, rating } = offer;
-  const procentStars = getRatingStarsProcent(rating);
+
   const dispatch = useAppDispatch();
+
+  const procentStars = getRatingStarsProcent(rating);
+
+  const handleMouseEnterToCard = () => {
+    if (nearbyOffer) {
+      dispatch(showCurrentIcon(offer.id));
+    }
+  };
+
+  const handleMouseLeaveToCard = () => {
+    if (nearbyOffer) {
+      dispatch(showCurrentIcon(null));
+    }
+  };
 
   return (
     <article
       className={cn('place-card', {'cities__card': !nearbyOffer, 'near-places__card': nearbyOffer})}
-      onMouseEnter={() => dispatch(showCurrentIcon(offer.id))}
-      onMouseLeave={() => dispatch(showCurrentIcon(null))}
+      onMouseEnter={handleMouseEnterToCard}
+      onMouseLeave={handleMouseLeaveToCard}
     >
       <div className={cn('place-card__image-wrapper', {'cities__card': !nearbyOffer, 'near-places__image-wrapper': nearbyOffer})} >
         <Link to={`/offer/${id}`}>
@@ -41,7 +55,7 @@ export function CardOffer({offer, nearbyOffer}: CardOfferProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${procentStars}px`}}></span>
+            <span style={{width: `${procentStars}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

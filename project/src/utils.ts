@@ -1,26 +1,36 @@
-import { MAX_STARS_RATING, FIVE_STARS_WIDTH, SelectOptions } from './consts';
+import { toast } from 'react-toastify';
+import { MAX_STARS_RATING, FIVE_STARS_WIDTH, SelectOptions, INVALID_MESSAGE, AUTO_CLOSE_TIME_OUT } from './consts';
 import { Offer } from './types/offer';
 
-export const getRatingStarsProcent = (rating: number) => (FIVE_STARS_WIDTH / MAX_STARS_RATING) * rating;
+const DEFAULT_RATING = 0;
+
+export const getRatingStarsProcent = (rating = DEFAULT_RATING) => (FIVE_STARS_WIDTH / MAX_STARS_RATING) * rating;
 
 export const compareOffer = (high:number, low:number) => high - low;
 
 export const sortList = (sortType: string, list: Offer[]) => {
-  const { DEFAULT, HIGH_TO_LOW, LOW_TO_HIGT, TOP_RATED } = SelectOptions;
+  const sortObj = {
+    [SelectOptions.DEFAULT]: () => list,
+    [SelectOptions.HIGH_TO_LOW]: () => list.sort((offerA, offerB) => compareOffer(offerB.price, offerA.price)),
+    [SelectOptions.LOW_TO_HIGH]: () => list.sort((offerA, offerB) => compareOffer(offerA.price, offerB.price)),
+    [SelectOptions.TOP_RATED]: () => list.sort((offerA, offerB) => compareOffer(offerB.rating, offerA.rating)),
+  };
 
-  if (sortType !== DEFAULT) {
-    if (sortType === HIGH_TO_LOW) {
-      return list.sort((offerA, offerB) => compareOffer(offerB.price, offerA.price));
-    }
+  return sortObj[sortType]();
+};
 
-    if (sortType === LOW_TO_HIGT) {
-      return list.sort((offerA, offerB) => compareOffer(offerA.price, offerB.price));
-    }
+export const validatePassword = (password: string) => {
+  const letters = /[a-zA-Z]/.test(password);
+  const numbers = /(?=.*[0-9])/.test(password);
 
-    if (sortType === TOP_RATED) {
-      return list.sort((offerA, offerB) => compareOffer(offerB.rating, offerA.rating));
-    }
+  if (letters && numbers) {
+    return password;
   }
 
-  return list;
+  toast(
+    INVALID_MESSAGE,
+    {autoClose: AUTO_CLOSE_TIME_OUT, position: 'top-center'}
+  );
+
+  return false;
 };

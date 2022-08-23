@@ -1,34 +1,53 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import browserHistory from '../../browser-history';
 import { AppRoute, AuthorizationStatus } from '../../consts';
-import { reviews } from '../../mocks/reviews';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { FavoritesPage } from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { MainPage } from '../../pages/main-page/main-page';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
 import { RoomPage } from '../../pages/room-page/room-page';
+import { getToken } from '../../services/token';
+import { requireAutorization } from '../../store/action';
+import HistoryRouter from '../history-router/history-router';
 import { PrivateRoute } from '../private-route/private-route';
-
+import { Spinner } from '../spinner/spinner';
 
 function App(): JSX.Element {
+  const isLoaded = useAppSelector((state) => state.isDataLoaded);
+  const dispatch = useAppDispatch();
+
   const { Main, Favorites, Login, Room, NotFound } = AppRoute;
 
+  const token = getToken();
+  useEffect(() => {
+    if (token) {
+      dispatch(requireAutorization(AuthorizationStatus.Auth));
+    }
+  }, [dispatch, token]);
+
+  if (isLoaded) {
+    return <Spinner />;
+  }
+
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={Main} element={<MainPage />}/>
         <Route
           path={Favorites}
           element={
-            <PrivateRoute autorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute>
               <FavoritesPage />
             </PrivateRoute>
           }
         />
         <Route path={Login} element={<LoginPage />}/>
-        <Route path={Room} element={<RoomPage reviews={reviews}/>}/>
+        <Route path={Room} element={<RoomPage />}/>
         <Route path={NotFound} element={<NotFoundPage />}/>
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

@@ -1,44 +1,25 @@
 import {useRef, useEffect } from 'react';
 import useMap from '../../hooks/useMap';
-import { Icon, Marker, PointExpression } from 'leaflet';
-import { City, Offer } from '../../types/offer';
-import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../consts';
-import 'leaflet/dist/leaflet.css';
+import { Marker } from 'leaflet';
 import { useAppSelector } from '../../hooks';
+import { currentCustomIcon, defaultCustomIcon } from '../../consts';
+import { City, Offer } from '../../types/offer';
+import 'leaflet/dist/leaflet.css';
 
 type MapContainerProps = {
   city: City,
   offers: Offer[],
+  selectedOffer?: Offer | null
 }
 
-type IconSize = {
-  ICON_SIZE: PointExpression,
-  ICON_ANCHOR: PointExpression
-}
+const MARKER_Z_INDEX = 2;
 
-const IconsSize: IconSize = {
-  ICON_SIZE: [40, 40],
-  ICON_ANCHOR: [20, 40]
-};
-
-const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: IconsSize.ICON_SIZE,
-  iconAnchor: IconsSize.ICON_ANCHOR
-});
-
-const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
-  iconSize: IconsSize.ICON_SIZE,
-  iconAnchor: IconsSize.ICON_ANCHOR
-});
-
-export function MapContainer({city, offers}: MapContainerProps): JSX.Element {
+export function MapContainer({city, offers, selectedOffer}: MapContainerProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
-  const icon = useAppSelector((state) => state.icon);
-
   const { location } = city;
+
+  const icon = useAppSelector((state) => state.icon);
 
   useEffect(() => {
     if (map) {
@@ -51,24 +32,42 @@ export function MapContainer({city, offers}: MapContainerProps): JSX.Element {
       });
 
       offers.forEach((point) => {
+        const currentMarker = icon === point.id;
+
         const marker = new Marker({
           lat: point.city.location.latitude,
           lng: point.city.location.longitude
         });
 
+        if (currentMarker) {
+          marker.setZIndexOffset(MARKER_Z_INDEX);
+        }
+
         marker
           .setIcon(
-            icon === point.id ? currentCustomIcon : defaultCustomIcon
+            currentMarker ? currentCustomIcon : defaultCustomIcon
           )
           .addTo(map);
       });
 
+      if (selectedOffer) {
+        const marker = new Marker({
+          lat: selectedOffer.city.location.latitude,
+          lng: selectedOffer.city.location.longitude
+        });
+
+        marker
+          .setIcon(currentCustomIcon)
+          .addTo(map);
+      }
 
     }
-  }, [map, offers, city, location, icon]);
+  }, [map, offers, city, location, icon, selectedOffer]);
 
   return (
-    <section style={{height: '750px'}} className="cities__map map"
+    <section
+      style={{height: '750px'}}
+      className="cities__map map"
       ref={mapRef}
     >
     </section>

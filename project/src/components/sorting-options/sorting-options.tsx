@@ -5,10 +5,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sortOffers } from '../../store/action';
 
 export function SortingOptions(): JSX.Element {
-  const [openSort, setOpenSort] = useState(true);
-  const dispatch = useAppDispatch();
+  const [openSort, setOpenSort] = useState(false);
 
   const sortType = useAppSelector((state) => state.sortType);
+  const dispatch = useAppDispatch();
 
   const setActiveClassHandler = (option: string) => {
     dispatch(sortOffers(option));
@@ -17,9 +17,9 @@ export function SortingOptions(): JSX.Element {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
-                    Popular
-        <svg className="places__sorting-arrow" width="7" height="4" onClick={() => setOpenSort((prev) => (prev = !prev))}>
+      <span className="places__sorting-type" tabIndex={0} onClick={() => setOpenSort((prev) => !prev)}>
+        {sortOptions[sortType]}
+        <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>

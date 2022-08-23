@@ -1,5 +1,5 @@
+import { Header } from '../../components/header/header';
 import { LocationsItem } from '../../components/locations-item/locations-item';
-import { Logo } from '../../components/logo/logo';
 import { MapContainer } from '../../components/map-container/map-container';
 import { OfferList } from '../../components/offer-list/offer-list';
 import { SortingOptions } from '../../components/sorting-options/sorting-options';
@@ -10,11 +10,10 @@ import { sortList } from '../../utils';
 export function MainPage(): JSX.Element {
   const store = useAppSelector((state) => state);
   const {city, offers, citiesList, sortType} = store;
-
   const dispatch = useAppDispatch();
 
   const filteredOffers = () => {
-    const filteredOfferList = offers.filter((offer) => offer.city.name === city.name);
+    const filteredOfferList = offers.slice().filter((offer) => offer.city.name === city.name);
     const sortOfferList = sortList(sortType, filteredOfferList);
 
     return sortOfferList;
@@ -24,32 +23,7 @@ export function MainPage(): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="/">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="/">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -73,7 +47,7 @@ export function MainPage(): JSX.Element {
               <b className="places__found" >{offerList.length} places to stay in {city.name}</b>
               <SortingOptions />
               <div className="cities__places-list places__list tabs__content">
-                <OfferList offerList={offerList} />
+                <OfferList offers={offerList}/>
               </div>
 
             </section>

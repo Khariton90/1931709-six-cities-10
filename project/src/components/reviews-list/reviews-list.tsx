@@ -1,12 +1,22 @@
-import { Reviews } from '../../mocks/reviews';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchReviews } from '../../store/api-actions';
 import { CommentSubmitForm } from '../comment-submit-form/comment-submit-form';
 import { ReviewsItem } from '../reviews-item/reviews-item';
 
 type ReviewsListProps = {
-  reviews: Reviews[]
+  id: string,
 }
 
-export function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
+export function ReviewsList({id}: ReviewsListProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+  const reviews = useAppSelector((state) => state.reviews);
+
+  useEffect(() => {
+    dispatch(fetchReviews(id));
+  }, [dispatch, id]);
+
   return (
     <section className="property__reviews reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
@@ -17,7 +27,7 @@ export function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
           ))
         }
       </ul>
-      <CommentSubmitForm />
+      <CommentSubmitForm id={id}/>
     </section>
   );
 }
