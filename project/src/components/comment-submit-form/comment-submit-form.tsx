@@ -1,4 +1,4 @@
-//Задание выполнено, для открытия интерфейса
+//Задание выполнено, для открытия интерфейса  7.12. Добро пожаловать, или посторонним вход воспрещён (часть 2)
 
 import cn from 'classnames';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
