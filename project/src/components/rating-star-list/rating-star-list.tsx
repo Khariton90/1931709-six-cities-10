@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 
 type RatingStarListProps = {
   onChangeFormValues: (value: number) => void,
@@ -6,7 +6,7 @@ type RatingStarListProps = {
   rating: number,
 }
 
-export function RatingStarList({onChangeFormValues, starList, rating}: RatingStarListProps): JSX.Element {
+function RatingStarList({onChangeFormValues, starList, rating}: RatingStarListProps): JSX.Element {
   return (
     <div className="reviews__rating-form form__rating">
       { starList.map((star) => (
@@ -34,3 +34,4 @@ export function RatingStarList({onChangeFormValues, starList, rating}: RatingSta
   );
 }
 
+export default memo(RatingStarList);

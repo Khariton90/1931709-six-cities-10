@@ -1,15 +1,19 @@
-import { Header } from '../../components/header/header';
-import { LocationsItem } from '../../components/locations-item/locations-item';
+import Header from '../../components/header/header';
+import LocationsItem from '../../components/locations-item/locations-item';
 import { MapContainer } from '../../components/map-container/map-container';
 import { OfferList } from '../../components/offer-list/offer-list';
-import { SortingOptions } from '../../components/sorting-options/sorting-options';
+import SortingOptions from '../../components/sorting-options/sorting-options';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCity } from '../../store/action';
 import { sortList } from '../../utils';
 
 export function MainPage(): JSX.Element {
-  const store = useAppSelector((state) => state);
-  const {city, offers, citiesList, sortType} = store;
+  const authStatus = useAppSelector((state) => state.autorizationStatus);
+  const city = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers);
+  const citiesList = useAppSelector((state) => state.citiesList);
+  const sortType = useAppSelector((state) => state.sortType);
+
   const dispatch = useAppDispatch();
 
   const filteredOffers = () => {
@@ -23,7 +27,7 @@ export function MainPage(): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <Header />
+      <Header authStatus={authStatus}/>
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -45,7 +49,7 @@ export function MainPage(): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found" >{offerList.length} places to stay in {city.name}</b>
-              <SortingOptions />
+              <SortingOptions sortType={sortType}/>
               <div className="cities__places-list places__list tabs__content">
                 <OfferList offers={offerList}/>
               </div>

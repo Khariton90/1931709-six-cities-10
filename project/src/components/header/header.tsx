@@ -1,7 +1,13 @@
+import { memo } from 'react';
+import { AuthorizationStatus } from '../../consts';
 import { HeaderNav } from '../header-nav/header-nav';
 import { Logo } from '../logo/logo';
 
-export function Header(): JSX.Element {
+type HeaderProps = {
+  authStatus: AuthorizationStatus
+}
+
+function Header({authStatus}: HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -9,9 +15,11 @@ export function Header(): JSX.Element {
           <div className="header__left">
             <Logo />
           </div>
-          <HeaderNav />
+          <HeaderNav authStatus={authStatus}/>
         </div>
       </div>
     </header>
   );
 }
+
+export default memo(Header);

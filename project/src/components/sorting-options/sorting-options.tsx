@@ -1,16 +1,19 @@
 import cn from 'classnames';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { sortOptions } from '../../consts';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { sortOffers } from '../../store/action';
 
-export function SortingOptions(): JSX.Element {
+type SortingOptionsProps = {
+  sortType: string
+}
+
+function SortingOptions({sortType}: SortingOptionsProps): JSX.Element {
   const [openSort, setOpenSort] = useState(false);
 
-  const sortType = useAppSelector((state) => state.sortType);
   const dispatch = useAppDispatch();
 
-  const setActiveClassHandler = (option: string) => {
+  const handleChangeActiveClass = (option: string) => {
     dispatch(sortOffers(option));
   };
 
@@ -27,7 +30,7 @@ export function SortingOptions(): JSX.Element {
         {
           Object.entries(sortOptions).map(([key, value]) => (
             <li
-              onClick={() => setActiveClassHandler(key)}
+              onClick={() => handleChangeActiveClass(key)}
               key={value}
               className={cn('places__option', {'places__option--active': sortType === key})}
               tabIndex={0}
@@ -39,3 +42,5 @@ export function SortingOptions(): JSX.Element {
     </ form>
   );
 }
+
+export default memo(SortingOptions);

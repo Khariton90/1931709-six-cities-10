@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Header } from '../../components/header/header';
+import Header from '../../components/header/header';
 import { MapContainer } from '../../components/map-container/map-container';
 import { OfferList } from '../../components/offer-list/offer-list';
 import { ReviewsList } from '../../components/reviews-list/reviews-list';
@@ -46,7 +46,7 @@ export function RoomPage(): JSX.Element {
 
     return (
       <div className="page">
-        <Header />
+        <Header authStatus={autorizationStatus}/>
         <main className="page__main page__main--property">
           <section className="property">
             <div className="property__gallery-container container">

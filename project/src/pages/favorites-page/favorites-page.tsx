@@ -1,14 +1,15 @@
 import { FavoritesCard } from '../../components/favorites-card/favorites-card';
-import { Header } from '../../components/header/header';
+import Header from '../../components/header/header';
 import { useAppSelector } from '../../hooks';
 
 
 export function FavoritesPage(): JSX.Element {
   const offerList = useAppSelector((state) => state.offers);
+  const authStatus = useAppSelector((state) => state.autorizationStatus);
 
   return (
     <div className="page">
-      <Header />
+      <Header authStatus={authStatus}/>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
