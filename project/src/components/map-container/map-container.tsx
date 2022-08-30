@@ -15,11 +15,12 @@ type MapContainerProps = {
 const MARKER_Z_INDEX = 2;
 
 export function MapContainer({city, offers, selectedOffer}: MapContainerProps): JSX.Element {
-  const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
   const { location } = city;
 
   const icon = useAppSelector((state) => state.icon);
+
+  const mapRef = useRef(null);
+  const map = useMap(mapRef, city);
 
   useEffect(() => {
     if (map) {

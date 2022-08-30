@@ -1,5 +1,6 @@
 import { AppRoute } from './../consts';
 import { createAction } from '@reduxjs/toolkit';
+import { Offer } from '../types/offer';
 
 export const changeCity = createAction('offer/changeCity', (value) => ({
   payload: value
@@ -44,5 +45,13 @@ export const setError = createAction('data/setError', (error) => ({
 }));
 
 export const setUserData = createAction('data/setUserData', (data) => ({
+  payload: data
+}));
+
+export const changeFavoriteStatus = createAction('data/changeFavoriteStatus', (data: Offer) => ({
+  payload: data
+}));
+
+export const loadFavoritesOffers = createAction('data/loadFavoritesOffers', (data: Offer[]) => ({
   payload: data
 }));

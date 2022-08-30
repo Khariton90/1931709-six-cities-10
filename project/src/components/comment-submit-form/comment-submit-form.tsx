@@ -18,16 +18,16 @@ type CommentSubmitFormProps = {
 }
 
 export function CommentSubmitForm({id}: CommentSubmitFormProps): JSX.Element {
-  const dispatch = useAppDispatch();
   const reviews = useAppSelector((state) => state.reviews);
   const error = useAppSelector((state) => state.error);
+
+  const dispatch = useAppDispatch();
 
   const [form, setForm] = useState<CommentForm>({
     id,
     rating: 0,
     comment: ''
   });
-
 
   const [disabled, setDisabled] = useState(false);
 

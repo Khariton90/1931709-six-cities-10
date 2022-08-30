@@ -1,3 +1,5 @@
+
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchReviews } from '../../store/api-actions';
@@ -8,21 +10,32 @@ type ReviewsListProps = {
   id: string,
 }
 
-export function ReviewsList({id}: ReviewsListProps): JSX.Element {
+const MAX_NUMBER_COMMENTS = 10;
 
-  const dispatch = useAppDispatch();
+export function ReviewsList({id}: ReviewsListProps): JSX.Element {
   const reviews = useAppSelector((state) => state.reviews);
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    dispatch(fetchReviews(id));
-  }, [dispatch, id]);
+    if (!reviews.length) {
+      dispatch(fetchReviews(id));
+    }
+  }, [dispatch, id, reviews]);
+
+  const getSortReviews = () => {
+    const sortReviews = reviews.slice().sort((rewA, rewB) => dayjs(rewB.date).diff(dayjs(rewA.date)));
+    return sortReviews;
+  };
+
+  const sortReviews = getSortReviews();
 
   return (
     <section className="property__reviews reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
       <ul className="reviews__list">
         {
-          reviews.map((review) => (
+          sortReviews.slice(0, MAX_NUMBER_COMMENTS).map((review) => (
             <ReviewsItem key={review.id} review={review}/>
           ))
         }

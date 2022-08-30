@@ -66,3 +66,12 @@ export const currentCustomIcon = new Icon({
   iconSize: IconsSize.ICON_SIZE,
   iconAnchor: IconsSize.ICON_ANCHOR
 });
+
+export enum CitiesNames {
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf'
+}

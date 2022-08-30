@@ -9,9 +9,9 @@ type SortingOptionsProps = {
 }
 
 function SortingOptions({sortType}: SortingOptionsProps): JSX.Element {
-  const [openSort, setOpenSort] = useState(false);
-
   const dispatch = useAppDispatch();
+
+  const [openSort, setOpenSort] = useState(false);
 
   const handleChangeActiveClass = (option: string) => {
     dispatch(sortOffers(option));
