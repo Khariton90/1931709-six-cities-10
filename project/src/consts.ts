@@ -75,3 +75,8 @@ export enum CitiesNames {
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf'
 }
+
+export enum NameSpace {
+  Data = 'DATA',
+  User = 'USER'
+}

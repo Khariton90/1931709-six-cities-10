@@ -5,12 +5,14 @@ import Header from '../../components/header/header';
 import { Spinner } from '../../components/spinner/spinner';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchFavorites } from '../../store/api-actions';
+import { getDataLoadedStatus, getFavoritesOffers, getOffers } from '../../store/app-data/selectors';
+import { getAuthStatus } from '../../store/user-process/selectors';
 
 export function FavoritesPage(): JSX.Element {
-  const authStatus = useAppSelector((state) => state.autorizationStatus);
-  const isLoaded = useAppSelector((state) => state.isDataLoaded);
-  const offers = useAppSelector((state) => state.offers);
-  const favorites = useAppSelector((state) => state.favorites);
+  const authStatus = useAppSelector(getAuthStatus);
+  const isLoaded = useAppSelector(getDataLoadedStatus);
+  const offers = useAppSelector(getOffers);
+  const favorites = useAppSelector(getFavoritesOffers);
 
   const dispatch = useAppDispatch();
 

@@ -2,6 +2,7 @@ import cn from 'classnames';
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { addNewCommentAction } from '../../store/api-actions';
+import { getErrorStatus, getReviews } from '../../store/app-data/selectors';
 import { CommentForm } from '../../types/comment-form';
 import RatingStarList from '../rating-star-list/rating-star-list';
 import ReviewsButton from '../reviews-button/reviews-button';
@@ -18,8 +19,8 @@ type CommentSubmitFormProps = {
 }
 
 export function CommentSubmitForm({id}: CommentSubmitFormProps): JSX.Element {
-  const reviews = useAppSelector((state) => state.reviews);
-  const error = useAppSelector((state) => state.error);
+  const reviews = useAppSelector(getReviews);
+  const error = useAppSelector(getErrorStatus);
 
   const dispatch = useAppDispatch();
 

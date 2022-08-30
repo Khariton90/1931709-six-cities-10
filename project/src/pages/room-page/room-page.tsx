@@ -10,16 +10,18 @@ import { AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getToken } from '../../services/token';
 import { fetchFavorites, fetchOneOffer } from '../../store/api-actions';
+import { getCity, getDataLoadedStatus, getNearbyOffers, getSelectedOffer } from '../../store/app-data/selectors';
+import { getAuthStatus } from '../../store/user-process/selectors';
 import { Offer } from '../../types/offer';
 import { getRatingStarsProcent } from '../../utils';
 import './room-page.css';
 
 export function RoomPage(): JSX.Element {
-  const city = useAppSelector((state) => state.city);
-  const nearby = useAppSelector((state) => state.nearby);
-  const selectedOffer = useAppSelector((state) => state.selectedOffer);
-  const isDataLoaded = useAppSelector((state) => state.isDataLoaded);
-  const autorizationStatus = useAppSelector((state) => state.autorizationStatus);
+  const city = useAppSelector(getCity);
+  const nearby = useAppSelector(getNearbyOffers);
+  const selectedOffer = useAppSelector(getSelectedOffer);
+  const isDataLoaded = useAppSelector(getDataLoadedStatus);
+  const autorizationStatus = useAppSelector(getAuthStatus);
 
   const dispatch = useAppDispatch();
 

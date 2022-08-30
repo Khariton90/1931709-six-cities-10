@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchStatusFavorite } from '../../store/api-actions';
+import { getFavoritesOffers } from '../../store/app-data/selectors';
 import { Offer } from '../../types/offer';
 import { FavoritesCard } from '../favorites-card/favorites-card';
 
@@ -8,7 +9,7 @@ type FavoritesLocationsItemsProps = {
 }
 
 export function FavoritesLocationsItems({city}: FavoritesLocationsItemsProps): JSX.Element {
-  const favorites = useAppSelector((state) => state.favorites);
+  const favorites = useAppSelector(getFavoritesOffers);
 
   const dispatch = useAppDispatch();
 

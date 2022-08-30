@@ -1,19 +1,17 @@
 import { Link } from 'react-router-dom';
-import { AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { requireAutorization } from '../../store/action';
 import { logoutAction } from '../../store/api-actions';
+import { getOffers, getUserData } from '../../store/app-data/selectors';
 
 export function HeaderSignOut(): JSX.Element {
-  const userData = useAppSelector((state) => state.userData);
-  const offers = useAppSelector((state) => state.offers);
+  const userData = useAppSelector(getUserData);
+  const offers = useAppSelector(getOffers);
 
   const dispatch = useAppDispatch();
 
   const filterOffers = offers.slice().filter((offer) => offer.isFavorite);
 
   const handleClickLogout = () => {
-    dispatch(requireAutorization(AuthorizationStatus.NoAuth));
     dispatch(logoutAction());
   };
 

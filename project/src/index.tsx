@@ -7,6 +7,7 @@ import { fetchOfferAction } from './store/api-actions';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
+//Проблема с загрузкой Uncaught ReferenceError: Cannot access 'fetchOfferAction' before initialization
 store.dispatch(fetchOfferAction());
 
 const root = ReactDOM.createRoot(

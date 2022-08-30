@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { memo, useState } from 'react';
 import { sortOptions } from '../../consts';
 import { useAppDispatch } from '../../hooks';
-import { sortOffers } from '../../store/action';
+import { sortOffers } from '../../store/app-data/app-data';
 
 type SortingOptionsProps = {
   sortType: string

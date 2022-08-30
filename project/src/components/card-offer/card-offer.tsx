@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { getRatingStarsProcent } from '../../utils';
 import cn from 'classnames';
 import { useAppDispatch } from '../../hooks';
-import { loadOneOffer, redirectToRoute, showCurrentIcon } from '../../store/action';
+import { redirectToRoute } from '../../store/action';
 import { getToken } from '../../services/token';
 import { AppRoute } from '../../consts';
+import { loadOneOffer, showCurrentIcon } from '../../store/app-data/app-data';
 
 type CardOfferProps = {
   offer: Offer,

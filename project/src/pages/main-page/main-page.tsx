@@ -6,17 +6,19 @@ import { OfferList } from '../../components/offer-list/offer-list';
 import SortingOptions from '../../components/sorting-options/sorting-options';
 import { Spinner } from '../../components/spinner/spinner';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/app-data/app-data';
+import { getCitiesList, getCity, getDataLoadedStatus, getOffers, getSortType } from '../../store/app-data/selectors';
+import { getAuthStatus } from '../../store/user-process/selectors';
 import { Offer } from '../../types/offer';
 import { sortList } from '../../utils';
 
 export function MainPage(): JSX.Element {
-  const authStatus = useAppSelector((state) => state.autorizationStatus);
-  const city = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
-  const citiesList = useAppSelector((state) => state.citiesList);
-  const sortType = useAppSelector((state) => state.sortType);
-  const isLoaded = useAppSelector((state) => state.isDataLoaded);
+  const authStatus = useAppSelector(getAuthStatus);
+  const city = useAppSelector(getCity);
+  const offers = useAppSelector(getOffers);
+  const citiesList = useAppSelector(getCitiesList);
+  const sortType = useAppSelector(getSortType);
+  const isLoaded = useAppSelector(getDataLoadedStatus);
 
   const dispatch = useAppDispatch();
 
