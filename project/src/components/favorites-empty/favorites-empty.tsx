@@ -1,9 +1,8 @@
 import { useAppSelector } from '../../hooks';
-import { getAuthStatus } from '../../store/user-process/selectors';
 import Header from '../header/header';
 
 export function FavoritesEmpty(): JSX.Element {
-  const authStatus = useAppSelector(getAuthStatus);
+  const authStatus = useAppSelector(({userReducer}) => userReducer.autorizationStatus);
 
   return (
     <div className="page page--favorites-empty">

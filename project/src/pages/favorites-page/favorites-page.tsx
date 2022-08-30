@@ -5,14 +5,12 @@ import Header from '../../components/header/header';
 import { Spinner } from '../../components/spinner/spinner';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchFavorites } from '../../store/api-actions';
-import { getDataLoadedStatus, getFavoritesOffers, getOffers } from '../../store/app-data/selectors';
-import { getAuthStatus } from '../../store/user-process/selectors';
 
 export function FavoritesPage(): JSX.Element {
-  const authStatus = useAppSelector(getAuthStatus);
-  const isLoaded = useAppSelector(getDataLoadedStatus);
-  const offers = useAppSelector(getOffers);
-  const favorites = useAppSelector(getFavoritesOffers);
+  const authStatus = useAppSelector(({userReducer}) => userReducer.autorizationStatus);
+  const isLoaded = useAppSelector(({dataReducer}) => dataReducer.isDataLoaded);
+  const offers = useAppSelector(({dataReducer}) => dataReducer.offers);
+  const favorites = useAppSelector(({dataReducer}) => dataReducer.favorites);
 
   const dispatch = useAppDispatch();
 
@@ -20,7 +18,7 @@ export function FavoritesPage(): JSX.Element {
     dispatch(fetchFavorites());
   }, [dispatch, offers]);
 
-  if (isLoaded || !favorites.length) {
+  if (isLoaded && !favorites.length) {
     return (
       <Spinner />
     );

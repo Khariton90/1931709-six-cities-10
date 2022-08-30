@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeFavoriteStatus } from '../../store/action';
 import { fetchNearbyOffers, fetchStatusFavorite } from '../../store/api-actions';
-import { changeFavoriteStatus } from '../../store/app-data/app-data';
-import { getOffers } from '../../store/app-data/selectors';
 import { Offer } from '../../types/offer';
 import { CardOffer } from '../card-offer/card-offer';
 
@@ -13,7 +12,7 @@ type OfferListProps = {
 }
 
 export function OfferList({offers, nearbyOffer}: OfferListProps): JSX.Element {
-  const offersList = useAppSelector(getOffers);
+  const offersList = useAppSelector(({dataReducer}) => dataReducer.offers);
 
   const dispatch = useAppDispatch();
 

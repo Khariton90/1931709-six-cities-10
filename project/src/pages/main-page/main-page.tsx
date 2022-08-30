@@ -6,19 +6,17 @@ import { OfferList } from '../../components/offer-list/offer-list';
 import SortingOptions from '../../components/sorting-options/sorting-options';
 import { Spinner } from '../../components/spinner/spinner';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity } from '../../store/app-data/app-data';
-import { getCitiesList, getCity, getDataLoadedStatus, getOffers, getSortType } from '../../store/app-data/selectors';
-import { getAuthStatus } from '../../store/user-process/selectors';
+import { changeCity } from '../../store/action';
 import { Offer } from '../../types/offer';
 import { sortList } from '../../utils';
 
 export function MainPage(): JSX.Element {
-  const authStatus = useAppSelector(getAuthStatus);
-  const city = useAppSelector(getCity);
-  const offers = useAppSelector(getOffers);
-  const citiesList = useAppSelector(getCitiesList);
-  const sortType = useAppSelector(getSortType);
-  const isLoaded = useAppSelector(getDataLoadedStatus);
+  const authStatus = useAppSelector(({userReducer}) => userReducer.autorizationStatus);
+  const city = useAppSelector(({appReducer}) => appReducer.city);
+  const offers = useAppSelector(({dataReducer}) => dataReducer.offers);
+  const citiesList = useAppSelector(({appReducer}) => appReducer.citiesList);
+  const sortType = useAppSelector(({appReducer}) => appReducer.sortType);
+  const isLoaded = useAppSelector(({dataReducer}) => dataReducer.isDataLoaded);
 
   const dispatch = useAppDispatch();
 

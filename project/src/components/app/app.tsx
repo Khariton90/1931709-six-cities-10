@@ -8,14 +8,13 @@ import { LoginPage } from '../../pages/login-page/login-page';
 import { MainPage } from '../../pages/main-page/main-page';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
 import { RoomPage } from '../../pages/room-page/room-page';
-import { getToken } from '../../services/token';
-import { getDataLoadedStatus } from '../../store/app-data/selectors';
+import { dropToken, getToken } from '../../services/token';
 import HistoryRouter from '../history-router/history-router';
 import { PrivateRoute } from '../private-route/private-route';
 import { Spinner } from '../spinner/spinner';
 
 function App(): JSX.Element {
-  const isLoaded = useAppSelector(getDataLoadedStatus);
+  const isLoaded = useAppSelector(({dataReducer}) => dataReducer.isDataLoaded);
   const dispatch = useAppDispatch();
 
   const { Main, Favorites, Login, Room, NotFound } = AppRoute;
@@ -24,7 +23,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
     if (token) {
-      // dropToken();
+      dropToken();
     }
   }, [dispatch, token]);
 

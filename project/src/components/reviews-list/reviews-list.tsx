@@ -1,8 +1,8 @@
+
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchReviews } from '../../store/api-actions';
-import { getReviews } from '../../store/app-data/selectors';
 import { CommentSubmitForm } from '../comment-submit-form/comment-submit-form';
 import { ReviewsItem } from '../reviews-item/reviews-item';
 
@@ -13,7 +13,7 @@ type ReviewsListProps = {
 const MAX_NUMBER_COMMENTS = 10;
 
 export function ReviewsList({id}: ReviewsListProps): JSX.Element {
-  const reviews = useAppSelector(getReviews);
+  const reviews = useAppSelector(({dataReducer}) => dataReducer.reviews);
 
   const dispatch = useAppDispatch();
 

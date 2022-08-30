@@ -1,7 +1,6 @@
 import { CitiesNames } from '../../consts';
 import { FavoritesLocationsItems } from '../favorites-locations-items/favorites-locations-items';
 
-
 export function FavoritesList(): JSX.Element {
   return (
     <section className="favorites">

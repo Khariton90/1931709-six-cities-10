@@ -5,7 +5,6 @@ import { useAppSelector } from '../../hooks';
 import { currentCustomIcon, defaultCustomIcon } from '../../consts';
 import { City, Offer } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
-import { getActiveMapIcon } from '../../store/app-data/selectors';
 
 type MapContainerProps = {
   city: City,
@@ -18,7 +17,7 @@ const MARKER_Z_INDEX = 2;
 export function MapContainer({city, offers, selectedOffer}: MapContainerProps): JSX.Element {
   const { location } = city;
 
-  const icon = useAppSelector(getActiveMapIcon);
+  const icon = useAppSelector(({appReducer}) => appReducer.icon);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);

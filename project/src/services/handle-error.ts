@@ -1,5 +1,5 @@
-import { setError } from '../store/app-data/app-data';
 import { clearErrorAction } from './../store/api-actions';
+import { setError } from './../store/action';
 import { store } from './../store/index';
 
 export const handleErrorProcess = (message: string): void => {

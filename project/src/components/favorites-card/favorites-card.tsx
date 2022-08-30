@@ -5,7 +5,6 @@ import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchFavorites } from '../../store/api-actions';
-import { getOffers } from '../../store/app-data/selectors';
 
 
 type FavoritesCardProps = {
@@ -23,7 +22,7 @@ export function FavoritesCard({favoritesCard, onChangeFavoriteCard}: FavoritesCa
     type
   } = favoritesCard;
 
-  const offers = useAppSelector(getOffers);
+  const offers = useAppSelector(({dataReducer}) => dataReducer.offers);
 
   const dispatch = useAppDispatch();
 
