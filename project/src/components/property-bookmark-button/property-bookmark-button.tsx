@@ -17,10 +17,9 @@ type PropertyBookMarkButtonProps = {
 
 export function PropertyBookMarkButton({selectedOffer, type, width, height, onChangeFavoriteCard}: PropertyBookMarkButtonProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const token = getToken();
 
   const [card, setCard] = useState(selectedOffer);
-
-  const token = getToken();
 
   useEffect(() => {
     if (token){
@@ -29,12 +28,13 @@ export function PropertyBookMarkButton({selectedOffer, type, width, height, onCh
   }, [card, dispatch, token]);
 
   const handleSetCard = (offer: Offer) => {
-    if (token) {
-      setCard((prev) => (prev = offer));
-      onChangeFavoriteCard(offer);
+    if (!token) {
+      dispatch(redirectToRoute(AppRoute.Login));
       return;
     }
-    dispatch(redirectToRoute(AppRoute.Login));
+
+    setCard((prev) => (prev = offer));
+    onChangeFavoriteCard(offer);
   };
 
   return (
