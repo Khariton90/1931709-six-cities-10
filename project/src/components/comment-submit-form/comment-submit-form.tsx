@@ -1,11 +1,11 @@
-//Задание выполнено, для открытия интерфейса  7.12. Добро пожаловать, или посторонним вход воспрещён (часть 2)
-
 import cn from 'classnames';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { addNewCommentAction } from '../../store/api-actions';
 import { CommentForm } from '../../types/comment-form';
-import { RatingStarList } from '../rating-star-list/rating-star-list';
+import RatingStarList from '../rating-star-list/rating-star-list';
+import ReviewsButton from '../reviews-button/reviews-button';
+import ReviewsTextarea from '../reviews-textarea/reviews-textarea';
 import './comment-submit-form.css';
 
 const MIN_LENGTH_TEXTAREA = 50;
@@ -18,16 +18,16 @@ type CommentSubmitFormProps = {
 }
 
 export function CommentSubmitForm({id}: CommentSubmitFormProps): JSX.Element {
+  const reviews = useAppSelector(({dataReducer}) => dataReducer.reviews);
+  const error = useAppSelector(({dataReducer}) => dataReducer.error);
+
   const dispatch = useAppDispatch();
-  const reviews = useAppSelector((state) => state.reviews);
-  const error = useAppSelector((state) => state.error);
 
   const [form, setForm] = useState<CommentForm>({
     id,
     rating: 0,
     comment: ''
   });
-
 
   const [disabled, setDisabled] = useState(false);
 
@@ -42,13 +42,13 @@ export function CommentSubmitForm({id}: CommentSubmitFormProps): JSX.Element {
     setDisabled(false);
   }, [reviews]);
 
-  const onChangeFormValues = (value:number) => {
+  const handleChangeFormValues = useCallback((value:number) => {
     setForm((prevForm) => ({...prevForm, rating: value}));
-  };
+  }, []);
 
-  const handleChangeTextArea = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeTextArea = useCallback((evt: ChangeEvent<HTMLTextAreaElement>) => {
     setForm((prevForm) => ({...prevForm, comment: evt.target.value}));
-  };
+  }, []);
 
   const handleSubmitForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -67,30 +67,18 @@ export function CommentSubmitForm({id}: CommentSubmitFormProps): JSX.Element {
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <RatingStarList
-        onChangeFormValues={onChangeFormValues}
+        onChangeFormValues={handleChangeFormValues}
         starList={starList}
         rating={form.rating}
       />
-      <textarea className="reviews__textarea form__textarea"
+      <ReviewsTextarea
         disabled={disabled}
-        onChange={handleChangeTextArea}
+        onChangeTextArea={handleChangeTextArea}
         minLength={MIN_LENGTH_TEXTAREA}
         maxLength={MAX_LENGTH_TEXTAREA}
-        value={form.comment}
-        id="review" name="review"
-        placeholder="Tell how was your stay, what you like and what can be improved"
-      >
-      </textarea>
-      <div className="reviews__button-wrapper">
-        <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-        </p>
-        {
-          !disabled ?
-            <button className="reviews__submit form__submit button" type="submit" disabled={!validForm}>Submit</button> :
-            <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
-        }
-      </div>
+        comment={form.comment}
+      />
+      <ReviewsButton disabled={disabled} validForm={validForm}/>
     </form>
   );
 }

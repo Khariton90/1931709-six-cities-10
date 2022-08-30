@@ -12,6 +12,7 @@ type ReviewsItemProps = {
 
 export function ReviewsItem({review}: ReviewsItemProps): JSX.Element {
   const {user} = review;
+
   const getFormatDate = (format:string) => dayjs(review.date).format(format);
 
   return (

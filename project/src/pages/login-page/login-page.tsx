@@ -1,17 +1,27 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Logo } from '../../components/logo/logo';
+import { AppRoute } from '../../consts';
 import { useAppDispatch } from '../../hooks';
+import { getToken } from '../../services/token';
+import { redirectToRoute } from '../../store/action';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
 import { validatePassword } from '../../utils';
 
 export function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
+  const token = getToken();
 
   const [submitForm, setSubmitForm] = useState<AuthData>({
     login: '',
     password: ''
   });
+
+  useEffect(() => {
+    if (token) {
+      dispatch(redirectToRoute(AppRoute.Main));
+    }
+  }, [dispatch, token]);
 
   const handleChangeInputValue = (evt: ChangeEvent<HTMLInputElement>) => {
     setSubmitForm((prevForm) => ({

@@ -1,29 +1,29 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import browserHistory from '../../browser-history';
-import { AppRoute, AuthorizationStatus } from '../../consts';
+import { AppRoute } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { FavoritesPage } from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { MainPage } from '../../pages/main-page/main-page';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
 import { RoomPage } from '../../pages/room-page/room-page';
-import { getToken } from '../../services/token';
-import { requireAutorization } from '../../store/action';
+import { dropToken, getToken } from '../../services/token';
 import HistoryRouter from '../history-router/history-router';
 import { PrivateRoute } from '../private-route/private-route';
 import { Spinner } from '../spinner/spinner';
 
 function App(): JSX.Element {
-  const isLoaded = useAppSelector((state) => state.isDataLoaded);
+  const isLoaded = useAppSelector(({dataReducer}) => dataReducer.isDataLoaded);
   const dispatch = useAppDispatch();
 
   const { Main, Favorites, Login, Room, NotFound } = AppRoute;
 
   const token = getToken();
+
   useEffect(() => {
     if (token) {
-      dispatch(requireAutorization(AuthorizationStatus.Auth));
+      dropToken();
     }
   }, [dispatch, token]);
 

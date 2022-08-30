@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React from 'react';
+import React, { memo } from 'react';
 import { City } from '../../types/offer';
 
 type LocationsItemProps = {
@@ -8,7 +8,7 @@ type LocationsItemProps = {
   onCityChange: (city: City) => void;
 }
 
-export function LocationsItem({ city, cityItem, onCityChange }:LocationsItemProps): JSX.Element {
+function LocationsItem({ city, cityItem, onCityChange }:LocationsItemProps): JSX.Element {
   const changeCityHandler = (evt: React.MouseEvent) => {
     evt.preventDefault();
     onCityChange(cityItem);
@@ -28,3 +28,5 @@ export function LocationsItem({ city, cityItem, onCityChange }:LocationsItemProp
     </li>
   );
 }
+
+export default memo(LocationsItem, (prevProps, nextProps) => prevProps.cityItem === nextProps.cityItem);

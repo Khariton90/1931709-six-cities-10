@@ -1,36 +1,52 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Header } from '../../components/header/header';
+import Header from '../../components/header/header';
 import { MapContainer } from '../../components/map-container/map-container';
 import { OfferList } from '../../components/offer-list/offer-list';
+import { PropertyBookMarkButton } from '../../components/property-bookmark-button/property-bookmark-button';
 import { ReviewsList } from '../../components/reviews-list/reviews-list';
 import { Spinner } from '../../components/spinner/spinner';
 import { AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchNearbyOffers, fetchOneOffer } from '../../store/api-actions';
+import { fetchFavorites } from '../../store/api-actions';
+import { Offer } from '../../types/offer';
 import { getRatingStarsProcent } from '../../utils';
+import './room-page.css';
 
 export function RoomPage(): JSX.Element {
-  const paramsId = useParams().id;
-
-  const city = useAppSelector((state) => state.city);
-  const nearby = useAppSelector((state) => state.nearby);
-  const selectedOffer = useAppSelector((state) => state.selectedOffer);
-  const isDataLoaded = useAppSelector((state) => state.isDataLoaded);
-  const autorizationStatus = useAppSelector((state) => state.autorizationStatus);
+  const autorizationStatus = useAppSelector(({userReducer}) => userReducer.autorizationStatus);
+  const isDataLoaded = useAppSelector(({dataReducer}) => dataReducer.isDataLoaded);
+  const nearby = useAppSelector(({dataReducer}) => dataReducer.nearby);
+  const city = useAppSelector(({appReducer}) => appReducer.city);
+  const selectedOffer = useAppSelector(({appReducer}) => appReducer.selectedOffer);
+  const token = useAppSelector(({userReducer}) => userReducer.userData?.token);
 
   const dispatch = useAppDispatch();
 
+  const paramsId = useParams().id;
+  const [offerCard, setOfferCard] = useState(selectedOffer);
+
   useEffect(() => {
-    dispatch(fetchOneOffer(paramsId));
-    dispatch(fetchNearbyOffers(paramsId));
-  }, [dispatch, paramsId]);
+    if (!selectedOffer) {
+      setOfferCard(selectedOffer);
+    }
+
+    if (token) {
+      dispatch(fetchFavorites());
+    }
+  }, [dispatch, paramsId, selectedOffer, offerCard, token]);
+
 
   if (isDataLoaded && !nearby.length) {
     return <Spinner />;
   }
 
-  if (selectedOffer) {
+  const handleChangeFavoriteCard = (offer: Offer) => {
+    setOfferCard((prevCard) => (prevCard = offer));
+    dispatch(fetchFavorites());
+  };
+
+  if (selectedOffer && offerCard) {
     const {
       images,
       isPremium,
@@ -46,7 +62,7 @@ export function RoomPage(): JSX.Element {
 
     return (
       <div className="page">
-        <Header />
+        <Header authStatus={autorizationStatus}/>
         <main className="page__main page__main--property">
           <section className="property">
             <div className="property__gallery-container container">
@@ -66,12 +82,7 @@ export function RoomPage(): JSX.Element {
                   <h1 className="property__name">
                     {title}
                   </h1>
-                  <button className="property__bookmark-button button" type="button">
-                    <svg className="property__bookmark-icon" width="31" height="33">
-                      <use xlinkHref="#icon-bookmark"></use>
-                    </svg>
-                    <span className="visually-hidden">To bookmarks</span>
-                  </button>
+                  <PropertyBookMarkButton selectedOffer={offerCard} type="property__" width={33} height={31} onChangeFavoriteCard={handleChangeFavoriteCard}/>
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
@@ -131,7 +142,9 @@ export function RoomPage(): JSX.Element {
                 { autorizationStatus === AuthorizationStatus.Auth ? <ReviewsList id={selectedOffer.id.toString()}/> : null }
               </div>
             </div>
-            <section className="property__map" style={{'overflow': 'hidden'}}>
+            <section className="property__map"
+              style={{'overflow': 'hidden', 'maxWidth': '1144px', 'margin': '20px auto'}}
+            >
               <MapContainer
                 city={city}
                 offers={nearby}
