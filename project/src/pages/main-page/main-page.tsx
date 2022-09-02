@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Header from '../../components/header/header';
 import LocationsItem from '../../components/locations-item/locations-item';
 import { MainEmpty } from '../../components/main-empty/main-empty';
@@ -6,7 +7,7 @@ import { OfferList } from '../../components/offer-list/offer-list';
 import SortingOptions from '../../components/sorting-options/sorting-options';
 import { Spinner } from '../../components/spinner/spinner';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity } from '../../store/action';
+import { changeCity, loadOneOffer, showCurrentIcon } from '../../store/action';
 import { Offer } from '../../types/offer';
 import { sortList } from '../../utils';
 
@@ -17,6 +18,7 @@ export function MainPage(): JSX.Element {
   const citiesList = useAppSelector(({appReducer}) => appReducer.citiesList);
   const sortType = useAppSelector(({appReducer}) => appReducer.sortType);
   const isLoaded = useAppSelector(({dataReducer}) => dataReducer.isDataLoaded);
+  const selectedOffer = useAppSelector(({appReducer}) => appReducer.selectedOffer);
 
   const dispatch = useAppDispatch();
 
@@ -28,6 +30,13 @@ export function MainPage(): JSX.Element {
   };
 
   const offerList = filteredOffers(offers);
+
+  useEffect(() => {
+    if (selectedOffer) {
+      dispatch(loadOneOffer(null));
+      dispatch(showCurrentIcon(null));
+    }
+  }, [dispatch, selectedOffer]);
 
   if (!offers.length && !isLoaded) {
     return <Spinner />;

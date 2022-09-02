@@ -1,10 +1,11 @@
 import {useRef, useEffect } from 'react';
 import useMap from '../../hooks/useMap';
 import { Marker } from 'leaflet';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { currentCustomIcon, defaultCustomIcon } from '../../consts';
 import { City, Offer } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
+import { changeCity } from '../../store/action';
 
 type MapContainerProps = {
   city: City,
@@ -12,12 +13,11 @@ type MapContainerProps = {
   selectedOffer?: Offer | null
 }
 
-const MARKER_Z_INDEX = 2;
-
 export function MapContainer({city, offers, selectedOffer}: MapContainerProps): JSX.Element {
   const { location } = city;
 
   const icon = useAppSelector(({appReducer}) => appReducer.icon);
+  const dispatch = useAppDispatch();
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -36,13 +36,9 @@ export function MapContainer({city, offers, selectedOffer}: MapContainerProps): 
         const currentMarker = icon === point.id;
 
         const marker = new Marker({
-          lat: point.city.location.latitude,
-          lng: point.city.location.longitude
+          lat: point.location.latitude,
+          lng: point.location.longitude
         });
-
-        if (currentMarker) {
-          marker.setZIndexOffset(MARKER_Z_INDEX);
-        }
 
         marker
           .setIcon(
@@ -52,9 +48,11 @@ export function MapContainer({city, offers, selectedOffer}: MapContainerProps): 
       });
 
       if (selectedOffer) {
+        dispatch(changeCity(selectedOffer.city.name));
+
         const marker = new Marker({
-          lat: selectedOffer.city.location.latitude,
-          lng: selectedOffer.city.location.longitude
+          lat: selectedOffer.location.latitude,
+          lng: selectedOffer.location.longitude
         });
 
         marker
@@ -63,7 +61,7 @@ export function MapContainer({city, offers, selectedOffer}: MapContainerProps): 
       }
 
     }
-  }, [map, offers, city, location, icon, selectedOffer]);
+  }, [dispatch, icon, location.latitude, location.longitude, map, offers, selectedOffer]);
 
   return (
     <section

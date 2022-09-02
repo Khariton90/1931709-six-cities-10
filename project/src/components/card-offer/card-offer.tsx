@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../hooks';
 import { loadOneOffer, redirectToRoute, showCurrentIcon } from '../../store/action';
 import { getToken } from '../../services/token';
 import { AppRoute } from '../../consts';
+import { fetchReviews } from '../../store/api-actions';
 
 type CardOfferProps = {
   offer: Offer,
@@ -22,11 +23,15 @@ export function CardOffer({offer, nearbyOffer, onChangeFavoriteStatus}: CardOffe
   const token = getToken();
 
   const handleMouseEnterToCard = () => {
-    dispatch(showCurrentIcon(offer.id));
+    if (!nearbyOffer) {
+      dispatch(showCurrentIcon(offer.id));
+    }
   };
 
   const handleMouseLeaveToCard = () => {
-    dispatch(showCurrentIcon(null));
+    if (!nearbyOffer) {
+      dispatch(showCurrentIcon(null));
+    }
   };
 
   const handleChangeFavoriteStatus = () => {
@@ -37,15 +42,22 @@ export function CardOffer({offer, nearbyOffer, onChangeFavoriteStatus}: CardOffe
     dispatch(redirectToRoute(AppRoute.Login));
   };
 
+  const handleClickOfferCard = () => {
+    if (token) {
+      dispatch(fetchReviews(offer.id.toString()));
+    }
+
+    dispatch(showCurrentIcon(offer.id));
+    dispatch(loadOneOffer(offer));
+  };
+
 
   return (
     <article
       className={cn('place-card', {'cities__card': !nearbyOffer, 'near-places__card': nearbyOffer})}
       onMouseEnter={handleMouseEnterToCard}
       onMouseLeave={handleMouseLeaveToCard}
-      onClick={() => {
-        dispatch(loadOneOffer(offer));
-      }}
+      onClick={handleClickOfferCard}
     >
       <div className={cn('place-card__image-wrapper', {'cities__card': !nearbyOffer, 'near-places__image-wrapper': nearbyOffer})} >
         <Link to={`/offer/${id}`}>

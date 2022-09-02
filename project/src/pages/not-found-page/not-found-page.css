@@ -1,0 +1,33 @@
+.not-found-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.not-found-page img {
+  width: 85px;
+  animation: rotate 10s ease infinite;
+}
+
+.not-found-page h1 {
+  display: flex;
+  align-items: center;
+  font-size: 100px;
+  text-shadow: 2px 2px 2px #000;
+  color: #4481c3;
+  margin: 10px 0;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  } 50% {
+    transform: rotate(180deg);
+  } 100% {
+    transform: rotate(360deg);
+  }
+}
+

@@ -8,7 +8,8 @@ import { ReviewsList } from '../../components/reviews-list/reviews-list';
 import { Spinner } from '../../components/spinner/spinner';
 import { AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchFavorites } from '../../store/api-actions';
+import { showCurrentIcon } from '../../store/action';
+import { fetchFavorites, fetchOneOffer } from '../../store/api-actions';
 import { Offer } from '../../types/offer';
 import { getRatingStarsProcent } from '../../utils';
 import './room-page.css';
@@ -24,16 +25,22 @@ export function RoomPage(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const paramsId = useParams().id;
-  const [offerCard, setOfferCard] = useState(selectedOffer);
+  const [offerCard, setOfferCard] = useState<null | Offer>(null);
 
   useEffect(() => {
-    if (!selectedOffer) {
-      setOfferCard(selectedOffer);
+    if (!offerCard) {
+      dispatch(fetchOneOffer(paramsId));
+      dispatch(showCurrentIcon(paramsId));
     }
+
+    setOfferCard(selectedOffer);
 
     if (token) {
       dispatch(fetchFavorites());
     }
+
+    return () => setOfferCard((prevCard) => (prevCard = null));
+
   }, [dispatch, paramsId, selectedOffer, offerCard, token]);
 
 
