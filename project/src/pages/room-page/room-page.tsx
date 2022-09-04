@@ -9,7 +9,7 @@ import { Spinner } from '../../components/spinner/spinner';
 import { AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { showCurrentIcon } from '../../store/action';
-import { fetchFavorites, fetchOneOffer } from '../../store/api-actions';
+import { fetchFavorites, fetchNearbyOffers, fetchOneOffer } from '../../store/api-actions';
 import { Offer } from '../../types/offer';
 import { getRatingStarsProcent } from '../../utils';
 import './room-page.css';
@@ -28,19 +28,19 @@ export function RoomPage(): JSX.Element {
   const [offerCard, setOfferCard] = useState<null | Offer>(null);
 
   useEffect(() => {
-    if (!offerCard) {
+    if (!selectedOffer) {
       dispatch(fetchOneOffer(paramsId));
       dispatch(showCurrentIcon(paramsId));
+      dispatch(fetchNearbyOffers(paramsId));
     }
 
-    setOfferCard(selectedOffer);
+    if (!offerCard){
+      setOfferCard((prevCard) => (prevCard = selectedOffer));
+    }
 
     if (token) {
       dispatch(fetchFavorites());
     }
-
-    return () => setOfferCard((prevCard) => (prevCard = null));
-
   }, [dispatch, paramsId, selectedOffer, offerCard, token]);
 
 
@@ -70,7 +70,7 @@ export function RoomPage(): JSX.Element {
     return (
       <div className="page">
         <Header authStatus={autorizationStatus}/>
-        <main className="page__main page__main--property">
+        <main className="page__main page__main--property" data-testid="room-page">
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">

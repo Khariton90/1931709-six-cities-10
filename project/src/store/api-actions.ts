@@ -1,11 +1,11 @@
-import { CommentForm } from './../types/comment-form';
-import { handleErrorProcess } from './../services/handle-error';
+import { CommentForm } from '../types/comment-form';
+import { handleErrorProcess } from '../services/handle-error';
 import { store } from './index';
-import { saveToken, dropToken } from './../services/token';
-import { ApiRoute, AppRoute, AuthorizationStatus, AUTO_CLOSE_TIME_OUT } from './../consts';
+import { saveToken, dropToken } from '../services/token';
+import { ApiRoute, AppRoute, AuthorizationStatus, AUTO_CLOSE_TIME_OUT } from '../consts';
 import { loadOffers, setDataLoadedStatus, requireAutorization, redirectToRoute, loadOneOffer, loadNearby, loadReviews, setError, setUserData, changeFavoriteStatus, loadFavoritesOffers } from './action';
 import { AxiosInstance } from 'axios';
-import { AppDispatch, State } from './../types/state';
+import { AppDispatch, State } from '../types/state';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Offer } from '../types/offer';
 import { AuthData } from '../types/auth-data';

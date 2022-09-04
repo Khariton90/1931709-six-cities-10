@@ -8,7 +8,7 @@ type RatingStarListProps = {
 
 function RatingStarList({onChangeFormValues, starList, rating}: RatingStarListProps): JSX.Element {
   return (
-    <div className="reviews__rating-form form__rating">
+    <div className="reviews__rating-form form__rating" data-testid="reviews-rating">
       { starList.map((star) => (
         <Fragment key={`${star}-star`}>
           <input className="form__rating-input visually-hidden"

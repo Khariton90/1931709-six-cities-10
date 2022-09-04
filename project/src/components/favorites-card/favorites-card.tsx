@@ -2,10 +2,9 @@ import { Offer } from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { getRatingStarsProcent } from '../../utils';
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useState } from 'react';
+import { useAppDispatch } from '../../hooks';
 import { fetchFavorites } from '../../store/api-actions';
-
 
 type FavoritesCardProps = {
   favoritesCard: Offer,
@@ -22,23 +21,18 @@ export function FavoritesCard({favoritesCard, onChangeFavoriteCard}: FavoritesCa
     type
   } = favoritesCard;
 
-  const offers = useAppSelector(({dataReducer}) => dataReducer.offers);
-
   const dispatch = useAppDispatch();
 
   const [card, setCard] = useState(favoritesCard);
 
-  useEffect(() => {
-    dispatch(fetchFavorites());
-  }, [dispatch, offers]);
-
   const handleSetCard = (offer: Offer) => {
     setCard(offer);
     onChangeFavoriteCard(offer);
+    dispatch(fetchFavorites());
   };
 
   return (
-    <article className="favorites__card place-card">
+    <article className="favorites__card place-card" data-testid="favorites-card">
       {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
 
       <div className="favorites__image-wrapper place-card__image-wrapper">

@@ -13,7 +13,7 @@ function ReviewsButton({disabled, validForm}: ReviewsButtonProps): JSX.Element {
       </p>
       {
         !disabled ?
-          <button className="reviews__submit form__submit button" type="submit" disabled={!validForm}>Submit</button> :
+          <button data-testid="button" className="reviews__submit form__submit button" type="submit" disabled={!validForm}>Submit</button> :
           <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
       }
     </div>

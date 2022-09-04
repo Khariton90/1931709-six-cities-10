@@ -30,10 +30,12 @@ function SortingOptions({sortType}: SortingOptionsProps): JSX.Element {
         {
           Object.entries(sortOptions).map(([key, value]) => (
             <li
+              data-testid="sort-element"
               onClick={() => handleChangeActiveClass(key)}
               key={value}
               className={cn('places__option', {'places__option--active': sortType === key})}
               tabIndex={0}
+              aria-current={sortType === key}
             >{value}
             </li>
           ))

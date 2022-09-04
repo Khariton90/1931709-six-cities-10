@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../hooks';
 import { loadOneOffer, redirectToRoute, showCurrentIcon } from '../../store/action';
 import { getToken } from '../../services/token';
 import { AppRoute } from '../../consts';
-import { fetchReviews } from '../../store/api-actions';
+import { fetchNearbyOffers, fetchReviews } from '../../store/api-actions';
 
 type CardOfferProps = {
   offer: Offer,
@@ -47,6 +47,7 @@ export function CardOffer({offer, nearbyOffer, onChangeFavoriteStatus}: CardOffe
       dispatch(fetchReviews(offer.id.toString()));
     }
 
+    dispatch(fetchNearbyOffers(offer.id.toString()));
     dispatch(showCurrentIcon(offer.id));
     dispatch(loadOneOffer(offer));
   };
@@ -58,6 +59,7 @@ export function CardOffer({offer, nearbyOffer, onChangeFavoriteStatus}: CardOffe
       onMouseEnter={handleMouseEnterToCard}
       onMouseLeave={handleMouseLeaveToCard}
       onClick={handleClickOfferCard}
+      data-testid="places__card"
     >
       <div className={cn('place-card__image-wrapper', {'cities__card': !nearbyOffer, 'near-places__image-wrapper': nearbyOffer})} >
         <Link to={`/offer/${id}`}>

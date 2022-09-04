@@ -11,6 +11,7 @@ type ReviewsTextareaProps = {
 function ReviewsTextarea({disabled, onChangeTextArea, minLength, maxLength, comment}: ReviewsTextareaProps): JSX.Element {
   return (
     <textarea className="reviews__textarea form__textarea"
+      data-testid="textarea-element"
       disabled={disabled}
       onChange={(evt) => onChangeTextArea(evt)}
       minLength={minLength}

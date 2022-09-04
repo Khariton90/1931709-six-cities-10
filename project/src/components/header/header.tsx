@@ -9,7 +9,7 @@ type HeaderProps = {
 
 function Header({authStatus}: HeaderProps): JSX.Element {
   return (
-    <header className="header">
+    <header className="header" data-testid="header-app">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">

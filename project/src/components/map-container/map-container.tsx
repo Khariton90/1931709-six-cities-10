@@ -68,6 +68,7 @@ export function MapContainer({city, offers, selectedOffer}: MapContainerProps): 
       style={{height: '750px'}}
       className="cities__map map"
       ref={mapRef}
+      data-testid="map-element"
     >
     </section>
   );

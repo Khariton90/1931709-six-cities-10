@@ -16,7 +16,7 @@ export function FavoritesLocationsItems({city}: FavoritesLocationsItemsProps): J
     dispatch(fetchStatusFavorite(card));
   };
 
-  const getFiltededOffers = (list: Offer[]) => list.slice().filter((offer) => offer.city.name === city);
+  const getFiltededOffers = (list: Offer[]) => list.filter((offer) => offer.city.name === city);
   const offersList = getFiltededOffers(favorites);
 
   if (offersList.length) {

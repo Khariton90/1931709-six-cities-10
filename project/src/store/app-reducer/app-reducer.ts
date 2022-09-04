@@ -1,7 +1,7 @@
-import { CitiesList, CITY, SelectOptions } from './../consts';
+import { CitiesList, CITY, SelectOptions } from '../../consts';
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, showCurrentIcon, sortOffers, loadOneOffer, } from './action';
-import { AppState } from '../types/state';
+import { changeCity, showCurrentIcon, sortOffers, loadOneOffer, } from '../action';
+import { AppState } from '../../types/state';
 
 const initialState: AppState = {
   city: CITY,

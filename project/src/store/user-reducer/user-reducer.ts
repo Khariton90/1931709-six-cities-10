@@ -1,7 +1,7 @@
-import { AuthorizationStatus } from './../consts';
+import { AuthorizationStatus } from '../../consts';
 import { createReducer } from '@reduxjs/toolkit';
-import { requireAutorization, setUserData } from './action';
-import { UserState } from '../types/state';
+import { requireAutorization, setUserData } from '../action';
+import { UserState } from '../../types/state';
 
 const initialState: UserState = {
   autorizationStatus: AuthorizationStatus.Unknown,

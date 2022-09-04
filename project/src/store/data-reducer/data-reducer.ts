@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { DataState } from '../types/state';
-import { loadOffers, setDataLoadedStatus, loadNearby, loadReviews, setError, changeFavoriteStatus, loadFavoritesOffers } from './action';
+import { DataState } from '../../types/state';
+import { loadOffers, setDataLoadedStatus, loadNearby, loadReviews, setError, changeFavoriteStatus, loadFavoritesOffers } from '../action';
 
 const initialState: DataState = {
   offers: [],

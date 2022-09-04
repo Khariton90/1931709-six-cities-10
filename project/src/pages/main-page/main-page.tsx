@@ -7,7 +7,7 @@ import { OfferList } from '../../components/offer-list/offer-list';
 import SortingOptions from '../../components/sorting-options/sorting-options';
 import { Spinner } from '../../components/spinner/spinner';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity, loadOneOffer, showCurrentIcon } from '../../store/action';
+import { changeCity, loadNearby, loadOneOffer, showCurrentIcon } from '../../store/action';
 import { Offer } from '../../types/offer';
 import { sortList } from '../../utils';
 
@@ -19,6 +19,7 @@ export function MainPage(): JSX.Element {
   const sortType = useAppSelector(({appReducer}) => appReducer.sortType);
   const isLoaded = useAppSelector(({dataReducer}) => dataReducer.isDataLoaded);
   const selectedOffer = useAppSelector(({appReducer}) => appReducer.selectedOffer);
+  const nearbyOffers = useAppSelector(({dataReducer}) => dataReducer.nearby);
 
   const dispatch = useAppDispatch();
 
@@ -36,7 +37,12 @@ export function MainPage(): JSX.Element {
       dispatch(loadOneOffer(null));
       dispatch(showCurrentIcon(null));
     }
-  }, [dispatch, selectedOffer]);
+
+    if (nearbyOffers.length) {
+      dispatch(loadNearby([]));
+    }
+
+  }, [dispatch, selectedOffer, nearbyOffers.length]);
 
   if (!offers.length && !isLoaded) {
     return <Spinner />;

@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import { AppRoute } from '../../consts';
 import { useAppDispatch } from '../../hooks';
 import { getToken } from '../../services/token';
-import { redirectToRoute } from '../../store/action';
+import { loadOneOffer, redirectToRoute } from '../../store/action';
 import { fetchStatusFavorite } from '../../store/api-actions';
 import { Offer } from '../../types/offer';
 
 type PropertyBookMarkButtonProps = {
   selectedOffer: Offer
-  type: string,
-  width: number,
-  height: number,
+  type?: string,
+  width?: number,
+  height?: number,
   onChangeFavoriteCard: (offer: Offer) => void;
 }
 
@@ -34,11 +34,12 @@ export function PropertyBookMarkButton({selectedOffer, type, width, height, onCh
     }
 
     setCard((prev) => (prev = offer));
+    dispatch(loadOneOffer(offer));
     onChangeFavoriteCard(offer);
   };
 
   return (
-    <button className={cn(`${type}bookmark-button button`, {[`${type}bookmark-button--active`]: selectedOffer.isFavorite})} type="button"
+    <button data-testid="bookmark-button" className={cn(`${type}bookmark-button button`, {[`${type}bookmark-button--active`]: selectedOffer.isFavorite})} type="button"
       onClick={() => handleSetCard({...selectedOffer, isFavorite: !selectedOffer.isFavorite})}
     >
       <svg className={cn(`${type}bookmark-icon`, {[`${type}bookmark-icon--active`]: selectedOffer.isFavorite})} width={width} height={height}>
